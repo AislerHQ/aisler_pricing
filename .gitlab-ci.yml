@@ -1,0 +1,22 @@
+before_script:
+  - ruby -v
+  - which ruby
+  - gem install bundler --no-ri --no-rdoc
+  - bundle install --jobs $(nproc)  "${FLAGS[@]}"
+
+stages:
+  - test
+  - deploy
+
+
+rspec_job:
+  stage: test
+  script:
+    - bundle exec rspec
+
+deploy_job:
+  stage: deploy
+  script:
+    - bundle exec rake build
+    - bundle exec gem inabox -g https://aisler:$GEM_SERVER_PASSWORD@gems.aisler.team
+
