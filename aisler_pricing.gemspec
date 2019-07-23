@@ -25,6 +25,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 1.16"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
+  spec.add_development_dependency "geminabox"
 
   spec.add_dependency "money", "~> 6.10"
   spec.add_dependency "eu_central_bank", "~> 1.4.2"
