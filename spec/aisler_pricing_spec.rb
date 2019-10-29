@@ -57,7 +57,7 @@ RSpec.describe AislerPricing do
   end
 
   it 'should support hash, array and area as input values for board price' do
-    price_cents = 963
+    price_cents = 910
     expect(AislerPricing.board_price([100, 100], 2).cents).to eq(price_cents)
     expect(AislerPricing.board_price(10000, 2).cents).to eq(price_cents)
     expect(AislerPricing.board_price({ width: 100, height: 100 }, 2).cents).to eq(price_cents)

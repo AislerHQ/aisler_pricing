@@ -28,8 +28,8 @@ module AislerPricing
 
     price = if layer_count == 2
       price = 0.0
-      segments = [63, 98, Float::MAX]
-      slope = [0.4, 0.1, 0.6]
+      segments = [75, 117, Float::MAX]
+      slope = [0.336, 0.084, 0.500]
 
       dim = Math.sqrt(area.to_f)
       segments.each_with_index do |seg, ix|
