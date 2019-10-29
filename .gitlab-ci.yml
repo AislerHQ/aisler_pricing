@@ -1,7 +1,7 @@
 before_script:
   - ruby -v
   - which ruby
-  - gem install bundler --no-ri --no-rdoc -v 1.17.3
+  - gem install bundler --no-ri --no-rdoc
   - bundle install --jobs $(nproc)  "${FLAGS[@]}"
 
 stages:
