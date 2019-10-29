@@ -64,4 +64,60 @@ module AislerPricing
     Money.new(0).exchange_to(currency)
   end
 
+
+  def self.panel_price(area, quantity, rows, cols, config)
+    case config
+    when 'pp-2l'
+      fix = 70.0
+      a = 0.111
+      b = 0.332
+    when 'pp-hd-2l'
+      fix = 100.0
+      a = 0.111
+      b = 0.329
+    when 'pp-hd-4l'
+      fix = 130.0
+      a = 0.355
+      b = 0.454
+    end
+
+    pieces = rows * cols
+    area /= 100
+    area = area * quantity * rows * cols
+
+    price_cents = ((a * 100 ** b) * ( area ** (1 - b)) + fix) * 100
+    price_cents / quantity
+  end
+
+  def self.price(product_uid, args = {})
+    currency = args[:currency] || DEFAULT_CURRENCY
+
+    case product_uid
+    when 103
+      stencil_price(currency)
+    when 105
+      board_price(args[:dimension], 2, currency)
+    when 106
+      board_price(args[:dimension], 2, currency)
+    when 107
+      board_price(args[:dimension], 4, currency)
+    when 201
+      panel_price(args[:area], args[:quantity], args[:rows], args[:cols, args[:config]])
+    when 202
+      Money.new(0)
+    when 203
+      Money.new(6000)
+    when 204
+      Money.new(0)
+    when 71
+      Money.new(200)
+    when 72
+      Money.new(200)
+    when 81
+      Money.new(1000)
+    when 99
+      address.express_rate.cents.to_f
+    end
+  end
+
 end

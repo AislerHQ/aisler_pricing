@@ -69,4 +69,8 @@ RSpec.describe AislerPricing do
     AislerPricing.update_rates
     expect { price = AislerPricing.stencil_price('CAD') }.not_to raise_error
   end
+
+  it 'should return prices for AISLER product codes' do
+    expect(AislerPricing.price(105, dimension: 1).cents).to eq(235)
+  end
 end
