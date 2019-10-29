@@ -28,7 +28,7 @@ module AislerPricing
 
     price = if layer_count == 2
       price = 0.0
-      segments = [75, 117, Float::MAX]
+      segments = [63, 98, Float::MAX]
       slope = [0.4, 0.1, 0.6]
 
       dim = Math.sqrt(area.to_f)
@@ -37,7 +37,7 @@ module AislerPricing
         price += t_seg * slope[ix]
         dim -= t_seg
       end
-      Money.new([(price / 3 * 100).round, 235].max)
+      Money.new([(price / 3 * 100).round, 197].max)
 
     elsif layer_count == 4
       price = if area <= 1369

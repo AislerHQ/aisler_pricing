@@ -6,7 +6,7 @@ RSpec.describe AislerPricing do
   it "should receive 2 layer PCB price in euros" do
     price = AislerPricing.board_price(1, 2)
     expect(price).to be_an_instance_of Money
-    expect(price.cents).to eq(235) # Lowest price point
+    expect(price.cents).to eq(197) # Lowest price point
 
   end
 
@@ -57,7 +57,7 @@ RSpec.describe AislerPricing do
   end
 
   it 'should support hash, array and area as input values for board price' do
-    price_cents = 1083
+    price_cents = 963
     expect(AislerPricing.board_price([100, 100], 2).cents).to eq(price_cents)
     expect(AislerPricing.board_price(10000, 2).cents).to eq(price_cents)
     expect(AislerPricing.board_price({ width: 100, height: 100 }, 2).cents).to eq(price_cents)
@@ -71,6 +71,6 @@ RSpec.describe AislerPricing do
   end
 
   it 'should return prices for AISLER product codes' do
-    expect(AislerPricing.price(105, area: 1).cents).to eq(235)
+    expect(AislerPricing.price(105, area: 1).cents).to eq(197)
   end
 end
