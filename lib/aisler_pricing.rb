@@ -64,6 +64,9 @@ module AislerPricing
     Money.new(0).exchange_to(currency)
   end
 
+  def self.express_shipping(currency = DEFAULT_CURRENCY)
+    Money.new(1500).exchange_to(currency)
+  end
 
   def self.panel_price(area, quantity, rows, cols, config)
     case config
@@ -116,7 +119,7 @@ module AislerPricing
     when 81
       Money.new(1000)
     when 99
-      address.express_rate.cents.to_f
+      express_shipping(currency)
     end
   end
 
