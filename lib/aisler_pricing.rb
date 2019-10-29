@@ -99,11 +99,11 @@ module AislerPricing
     when 103
       stencil_price(currency)
     when 105
-      board_price(args[:dimension], 2, currency)
+      board_price(args[:area], 2, currency)
     when 106
-      board_price(args[:dimension], 2, currency)
+      board_price(args[:area], 2, currency)
     when 107
-      board_price(args[:dimension], 4, currency)
+      board_price(args[:area], 4, currency)
     when 201
       panel_price(args[:area], args[:quantity], args[:rows], args[:cols, args[:config]])
     when 202
