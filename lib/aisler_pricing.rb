@@ -113,11 +113,9 @@ module AislerPricing
     when 204
       Money.new(0)
     when 71
-      Money.new(200)
+      Money.new(168)
     when 72
-      Money.new(200)
-    when 81
-      Money.new(1000)
+      Money.new(168)
     when 99
       express_shipping(currency)
     end
