@@ -68,17 +68,17 @@ module AislerPricing
     Money.new(1500).exchange_to(currency)
   end
 
-  def self.panel_price(area, quantity, rows, cols, config)
-    case config
-    when 'pp-2l'
+  def self.panel_price(area, quantity, rows, cols, product)
+    case product
+    when 155
       fix = 70.0
       a = 0.111
       b = 0.332
-    when 'pp-hd-2l'
+    when 156
       fix = 100.0
       a = 0.111
       b = 0.329
-    when 'pp-hd-4l'
+    when 157
       fix = 130.0
       a = 0.355
       b = 0.454
@@ -105,7 +105,7 @@ module AislerPricing
     when 107
       board_price(args[:area], 4, currency)
     when 201
-      panel_price(args[:area], args[:quantity], args[:rows], args[:cols, args[:config]])
+      panel_price(args[:area], args[:quantity], args[:rows], args[:cols, args[:product]])
     when 202
       Money.new(0)
     when 203
