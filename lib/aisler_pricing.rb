@@ -105,7 +105,7 @@ module AislerPricing
     when 107
       board_price(args[:area], 4, currency)
     when 201
-      panel_price(args[:area], args[:quantity], args[:rows], args[:cols, args[:product]])
+      panel_price(args[:area], args[:quantity], args[:rows], args[:cols], product_uid)
     when 202
       Money.new(0)
     when 203
