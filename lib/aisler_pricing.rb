@@ -89,7 +89,7 @@ module AislerPricing
     area = area * quantity * rows * cols
 
     price_cents = ((a * 100 ** b) * ( area ** (1 - b)) + fix) * 100
-    price_cents / quantity
+    Money.new(price_cents / quantity)
   end
 
   def self.price(product_uid, args = {})

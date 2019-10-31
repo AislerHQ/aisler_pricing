@@ -72,5 +72,10 @@ RSpec.describe AislerPricing do
 
   it 'should return prices for AISLER product codes' do
     expect(AislerPricing.price(105, area: 1).cents).to eq(197)
+    expect(AislerPricing.price(155, area: 1600, cols: 4, rows: 4, quantity: 6).cents).to eq(2314)
+  end
+
+  it 'should calculate Perfect Panel prices' do
+    expect(AislerPricing.panel_price(1600, 6, 4, 4, 155).cents).to eq(2314)
   end
 end
