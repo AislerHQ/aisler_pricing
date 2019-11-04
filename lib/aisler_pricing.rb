@@ -37,7 +37,7 @@ module AislerPricing
         price += t_seg * slope[ix]
         dim -= t_seg
       end
-      Money.new([(price / 3 * 100).round, 197].max)
+      Money.new([(price / 3 * 100).round, 235].max)
 
     elsif layer_count == 4
       price = if area <= 1369

@@ -6,7 +6,7 @@ RSpec.describe AislerPricing do
   it "should receive 2 layer PCB price in euros" do
     price = AislerPricing.board_price(1, 2)
     expect(price).to be_an_instance_of Money
-    expect(price.cents).to eq(197) # Lowest price point
+    expect(price.cents).to eq(235) # Lowest price point
 
   end
 
