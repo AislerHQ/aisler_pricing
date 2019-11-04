@@ -71,7 +71,7 @@ RSpec.describe AislerPricing do
   end
 
   it 'should return prices for AISLER product codes' do
-    expect(AislerPricing.price(105, area: 1).cents).to eq(197)
+    expect(AislerPricing.price(105, area: 1).cents).to eq(235)
     expect(AislerPricing.price(155, area: 1600, cols: 4, rows: 4, quantity: 6).cents).to eq(2314)
   end
 
