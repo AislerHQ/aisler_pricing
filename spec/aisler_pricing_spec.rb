@@ -60,7 +60,7 @@ RSpec.describe AislerPricing do
   end
 
   it 'should receive stencil price as US Dollars' do
-    price = AislerPricing.stencil_price('USD')
+    price = AislerPricing.stencil_price(10, 'USD')
     expect(price.currency).to eq('USD')
     expect(price.cents).not_to eq(AislerPricing.stencil_price.cents)
   end
@@ -82,10 +82,10 @@ RSpec.describe AislerPricing do
   end
 
   it 'should require EU Central Bank rates if prices are requested in different currencies than Euros or U.S. dollars' do
-    expect { price = AislerPricing.stencil_price('CAD') }.to raise_error(Money::Bank::UnknownRate)
+    expect { price = AislerPricing.stencil_price(10, 'CAD') }.to raise_error(Money::Bank::UnknownRate)
 
     AislerPricing.update_rates
-    expect { price = AislerPricing.stencil_price('CAD') }.not_to raise_error
+    expect { price = AislerPricing.stencil_price(10, 'CAD') }.not_to raise_error
   end
 
   it 'should return prices for AISLER product codes' do
