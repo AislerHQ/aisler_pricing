@@ -26,34 +26,27 @@ module AislerPricing
       dimension
     end
 
-    price = if layer_count == 2
-      price = 0.0
-      segments = [75, 117, Float::MAX]
+    return Money.new(0) unless (1..4).include?(layer_count)
+
+    price = 0.0
+    segments = [75, 117, Float::MAX]
+    
+    if layer_count == 2
+      base = 235
       slope = [0.336, 0.084, 0.500]
-
-      dim = Math.sqrt(area.to_f)
-      segments.each_with_index do |seg, ix|
-        t_seg = [seg, dim].min
-        price += t_seg * slope[ix]
-        dim -= t_seg
-      end
-      Money.new([(price / 3 * 100).round, 235].max)
-
     elsif layer_count == 4
-      price = if area <= 1369
-        Money.new(496)
-      elsif area > 1369 && area <= 5776
-        Money.new(1168)
-      else
-        Money.new(1681)
-      end
-      price
-
-    else
-      Money.new(0)
+      base = 470
+      slope = [1.0, 0.252, 1.5]
     end
 
-    price.exchange_to(currency)
+    dim = Math.sqrt(area.to_f)
+    segments.each_with_index do |seg, ix|
+      t_seg = [seg, dim].min
+      price += t_seg * slope[ix]
+      dim -= t_seg
+    end
+    
+    Money.new([(price / 3 * 100).round, base].max).exchange_to(currency)
   end
 
   def self.stencil_price(dimension, currency = DEFAULT_CURRENCY)
