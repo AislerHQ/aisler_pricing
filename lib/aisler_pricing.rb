@@ -117,7 +117,7 @@ module AislerPricing
 
     case product_uid
     when 103
-      stencil_price(currency)
+      stencil_price(args[:area], currency)
     when 105
       board_price(args[:area], 2, currency)
     when 106
