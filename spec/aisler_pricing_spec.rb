@@ -23,14 +23,14 @@ RSpec.describe AislerPricing do
     expect(price).to be_an_instance_of Money
 
     price *= 1.19
-    expect(price.cents).to eq(1774)
+    expect(price.cents).to eq(1490)
 
     # 3rd price tier
     price = AislerPricing.board_price(10000, 4)
     expect(price).to be_an_instance_of Money
 
     price *= 1.19
-    expect(price.cents).to eq(3225)
+    expect(price.cents).to eq(2707)
   end
 
   it 'should receive stencil price' do

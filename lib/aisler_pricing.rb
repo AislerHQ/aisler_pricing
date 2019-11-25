@@ -36,7 +36,7 @@ module AislerPricing
       slope = [0.336, 0.084, 0.500]
     elsif layer_count == 4
       base = 470
-      slope = [1.0, 0.252, 1.5]
+      slope = [0.84, 0.21, 1.25]
     end
 
     dim = Math.sqrt(area.to_f)
