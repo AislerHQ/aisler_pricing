@@ -62,7 +62,7 @@ RSpec.describe AislerPricing do
   it 'should receive stencil price as US Dollars' do
     price = AislerPricing.stencil_price(10, 'USD')
     expect(price.currency).to eq('USD')
-    expect(price.cents).not_to eq(AislerPricing.stencil_price.cents)
+    expect(price.cents).not_to eq(AislerPricing.stencil_price(10).cents)
   end
 
   it 'should receive PCB price as US Dollars' do
