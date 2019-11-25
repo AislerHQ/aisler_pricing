@@ -34,11 +34,29 @@ RSpec.describe AislerPricing do
   end
 
   it 'should receive stencil price' do
-    price = AislerPricing.stencil_price # Stencil price is fix
+    price = AislerPricing.stencil_price(width: 1, height: 1) # Really small stencil
     expect(price).to be_an_instance_of Money
-    price *= 1.19
-    expect(price.cents).to eq(1290)
+    expect(price.cents).to eq(600) # Base price for stencils
+    
+    price = AislerPricing.stencil_price(width: 110, height: 70)
+    expect(price).to be_an_instance_of Money
+    expect(price.cents).to eq(1339)
+    
+    price = AislerPricing.stencil_price(width: 50, height: 60)
+    expect(price).to be_an_instance_of Money
+    expect(price.cents).to eq(1095)
 
+    price = AislerPricing.stencil_price(width: 160, height: 100)
+    expect(price).to be_an_instance_of Money
+    expect(price.cents).to eq(1532)
+    
+    price = AislerPricing.stencil_price(width: 200, height: 200)
+    expect(price).to be_an_instance_of Money
+    expect(price.cents).to eq(1900)
+    
+    price = AislerPricing.stencil_price(width: 300, height: 300)
+    expect(price).to be_an_instance_of Money
+    expect(price.cents).to eq(3900)
   end
 
   it 'should receive stencil price as US Dollars' do

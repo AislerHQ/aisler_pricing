@@ -56,8 +56,28 @@ module AislerPricing
     price.exchange_to(currency)
   end
 
-  def self.stencil_price(currency = DEFAULT_CURRENCY)
-    Money.new(1084).exchange_to(currency)
+  def self.stencil_price(dimension, currency = DEFAULT_CURRENCY)
+    area = case dimension
+    when Hash
+      dimension[:width] * dimension[:height]
+    when Array
+      dimension[0] * dimension[1]
+    else
+      dimension
+    end
+    
+    price = 0.0
+    segments = [60, 140, Float::MAX]
+    slope = [0.2, 0.05, 0.2]
+
+    dim = Math.sqrt(area.to_f)
+    segments.each_with_index do |seg, ix|
+      t_seg = [seg, dim].min
+      price += t_seg * slope[ix]
+      dim -= t_seg
+    end
+    
+    Money.new([(price * 100).round, 600].max).exchange_to(currency)
   end
 
   def self.shipping(currency = DEFAULT_CURRENCY)
