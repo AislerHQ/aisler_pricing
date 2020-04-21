@@ -36,7 +36,7 @@ module AislerPricing
     when 106
       0.064
     when 107
-      0.124
+      0.161
     else
       return Money.new(0)
     end
