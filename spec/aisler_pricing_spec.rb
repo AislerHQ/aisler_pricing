@@ -37,7 +37,7 @@ RSpec.describe AislerPricing do
     
     price = AislerPricing.stencil_price(width: 110, height: 70)
     expect(price).to be_an_instance_of Money
-    expect(price.price_cents).to eq(1339)
+    expect(price.cents).to eq(1339)
     
     price = AislerPricing.stencil_price(width: 50, height: 60)
     expect(price).to be_an_instance_of Money
