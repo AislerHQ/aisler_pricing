@@ -27,6 +27,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "geminabox"
 
-  spec.add_dependency "money", "~> 6.10"
-  spec.add_dependency "eu_central_bank", "~> 1.4.2"
+  spec.add_dependency "money", "~> 6.13"
+  spec.add_dependency "eu_central_bank"
 end
