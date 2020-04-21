@@ -23,6 +23,8 @@ module AislerPricing
     when Array
       dimension[0] * dimension[1]
     when Integer
+      dimension.to_f
+    when Float
       dimension
     else
       return Money.new(0)
