@@ -16,37 +16,35 @@ module AislerPricing
   end
 
   # All dimensions must be in mm2
-  def self.board_price(dimension, layer_count, currency = DEFAULT_CURRENCY)
+  def self.board_price(dimension, quantity, product, currency = DEFAULT_CURRENCY)
     area = case dimension
     when Hash
       dimension[:width] * dimension[:height]
     when Array
       dimension[0] * dimension[1]
-    else
+    when Integer
       dimension
+    else
+      return Money.new(0)
+    end
+    area /= 100
+
+    base = 8.4
+    price_per_cm2 = case product
+    when 105
+      0.064
+    when 106
+      0.064
+    when 107
+      0.124
+    else
+      return Money.new(0)
     end
 
-    return Money.new(0) unless (1..4).include?(layer_count)
-
-    price = 0.0
-    segments = [75, 117, Float::MAX]
-    
-    if layer_count == 2
-      base = 235
-      slope = [0.336, 0.084, 0.500]
-    elsif layer_count == 4
-      base = 470
-      slope = [0.84, 0.21, 1.25]
-    end
-
-    dim = Math.sqrt(area.to_f)
-    segments.each_with_index do |seg, ix|
-      t_seg = [seg, dim].min
-      price += t_seg * slope[ix]
-      dim -= t_seg
-    end
-    
-    Money.new([(price / 3 * 100).round, base].max).exchange_to(currency)
+    total = area * quantity * price_per_cm2
+    total += base
+    total /= quantity
+    Money.new((total * 100).round).exchange_to(currency)
   end
 
   def self.stencil_price(dimension, currency = DEFAULT_CURRENCY)
@@ -111,12 +109,8 @@ module AislerPricing
     case product_uid
     when 103
       stencil_price(args[:area], currency)
-    when 105
-      board_price(args[:area], 2, currency)
-    when 106
-      board_price(args[:area], 2, currency)
-    when 107
-      board_price(args[:area], 4, currency)
+    when (105..154)
+      board_price(args[:area], args[:quantity], product_uid, currency)
     when (155..199)
       panel_price(args[:area], args[:quantity], args[:rows], args[:cols], product_uid)
     when 202
