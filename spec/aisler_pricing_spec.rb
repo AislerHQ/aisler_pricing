@@ -21,13 +21,13 @@ RSpec.describe AislerPricing do
     expect(price).to be_an_instance_of Money
 
     price *= 1.19
-    expect(price.cents).to eq(845)
+    expect(price.cents).to eq(774)
 
     price = AislerPricing.board_price([300, 200], 3, 107)
     expect(price).to be_an_instance_of Money
 
     price *= 1.19
-    expect(price.cents).to eq(15684)
+    expect(price.cents).to eq(13542)
   end
 
   it 'should receive stencil price' do
@@ -68,7 +68,7 @@ RSpec.describe AislerPricing do
   end
 
   it 'should support hash, array and area as input values for board price' do
-    price_cents = 1060
+    price_cents = 1120
     expect(AislerPricing.board_price([100, 100], 3, 105).cents).to eq(price_cents)
     expect(AislerPricing.board_price(10000, 3, 105).cents).to eq(price_cents)
     expect(AislerPricing.board_price({ width: 100, height: 100 }, 3, 105).cents).to eq(price_cents)
