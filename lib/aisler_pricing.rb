@@ -34,11 +34,11 @@ module AislerPricing
     base = 8.4
     price_per_cm2 = case product
     when 105
-      0.064
+      0.078
     when 106
-      0.064
+      0.078
     when 107
-      0.161
+      0.215
     else
       return Money.new(0)
     end
