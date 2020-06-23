@@ -65,19 +65,14 @@ module AislerPricing
     else
       dimension
     end
-    
-    price = 0.0
-    segments = [60, 140, Float::MAX]
-    slope = [0.2, 0.05, 0.2]
+    area /= 100
 
-    dim = Math.sqrt(area.to_f)
-    segments.each_with_index do |seg, ix|
-      t_seg = [seg, dim].min
-      price += t_seg * slope[ix]
-      dim -= t_seg
-    end
-    
-    Money.new([(price * 100).round, 600].max).exchange_to(currency)
+    base = 10.0
+    price_per_cm2 = 0.157
+
+    total = area * price_per_cm2
+    total += base
+    Money.new((total * 100).round).exchange_to(currency)
   end
 
   def self.shipping(currency = DEFAULT_CURRENCY)
