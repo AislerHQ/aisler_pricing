@@ -6,8 +6,7 @@ RSpec.describe AislerPricing do
   it "should receive 2 layer PCB price in euros" do
     price = AislerPricing.board_price([1, 1], 3, 105)
     expect(price).to be_an_instance_of Money
-    expect(price.cents).to eq(280) # Lowest price point
-
+    expect(price.cents).to eq(340) # Lowest price point
   end
 
   it "should receive 4 layer PCB price in euros", focus: true do
@@ -15,19 +14,19 @@ RSpec.describe AislerPricing do
     expect(price).to be_an_instance_of Money
 
     price *= 1.19
-    expect(price.cents).to eq(333)
+    expect(price.cents).to eq(488)
 
     price = AislerPricing.board_price(2000, 3, 107)
     expect(price).to be_an_instance_of Money
 
     price *= 1.19
-    expect(price.cents).to eq(774)
+    expect(price.cents).to eq(928)
 
     price = AislerPricing.board_price([300, 200], 3, 107)
     expect(price).to be_an_instance_of Money
 
     price *= 1.19
-    expect(price.cents).to eq(13542)
+    expect(price.cents).to eq(13697)
   end
 
   it 'should receive stencil price' do
@@ -68,7 +67,7 @@ RSpec.describe AislerPricing do
   end
 
   it 'should support hash, array and area as input values for board price' do
-    price_cents = 1120
+    price_cents = 1180
     expect(AislerPricing.board_price([100, 100], 3, 105).cents).to eq(price_cents)
     expect(AislerPricing.board_price(10000, 3, 105).cents).to eq(price_cents)
     expect(AislerPricing.board_price({ width: 100, height: 100 }, 3, 105).cents).to eq(price_cents)
@@ -82,11 +81,19 @@ RSpec.describe AislerPricing do
   end
 
   it 'should return prices for AISLER product codes' do
-    expect(AislerPricing.price(105, area: 1, quantity: 3).cents).to eq(280)
+    expect(AislerPricing.price(105, area: 1, quantity: 3).cents).to eq(340)
     expect(AislerPricing.price(155, area: 1600, cols: 4, rows: 4, quantity: 6).cents).to eq(2314)
   end
 
   it 'should calculate Perfect Panel prices' do
     expect(AislerPricing.panel_price(1600, 6, 4, 4, 155).cents).to eq(2314)
+  end
+  
+  it 'output prices for uC net listing' do
+    puts 'uC prices'
+    puts (AislerPricing.board_price([160, 100], 3, 105) * 1.19).format
+    puts (AislerPricing.board_price([20, 20], 3, 107) * 1.19).format
+    puts (AislerPricing.board_price([60, 50], 3, 107) * 1.19).format
+    puts (AislerPricing.board_price([160, 100], 3, 107) * 1.19).format
   end
 end

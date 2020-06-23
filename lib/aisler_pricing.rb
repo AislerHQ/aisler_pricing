@@ -31,7 +31,16 @@ module AislerPricing
     end
     area /= 100
 
-    base = 8.4
+    return Money.new(0) unless (105..155).include? product
+
+    base = case product
+    when 105
+      10.20
+    when 106
+      10.20
+    when 107
+      12.30
+    end
     price_per_cm2 = case product
     when 105
       0.084
@@ -39,8 +48,6 @@ module AislerPricing
       0.084
     when 107
       0.185
-    else
-      return Money.new(0)
     end
 
     total = area * quantity * price_per_cm2
