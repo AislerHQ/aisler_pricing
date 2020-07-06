@@ -3,11 +3,12 @@ require 'csv'
 require 'money'
 require 'eu_central_bank'
 
-require "aisler_pricing/version"
+require 'aisler_pricing/version'
 
 module AislerPricing
   DEFAULT_CURRENCY = 'EUR'.freeze
-  VAT_RATES = { de: 1.16 }
+  VAT_MULTIPLIERS = { de: 1.16 }.freeze
+  VAT_RATES = { de: 16 }.freeze
   Money.default_currency = Money::Currency.new(DEFAULT_CURRENCY)
   Money.default_bank = EuCentralBank.new
   Money.default_bank.add_rate('EUR', 'USD', 1.15) # Fixed rate for our U.S. business
