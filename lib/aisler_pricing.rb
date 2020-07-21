@@ -75,6 +75,10 @@ module AislerPricing
     total += base
     Money.new((total * 100).round).exchange_to(currency)
   end
+  
+  def self.registration_frame_price(currency = DEFAULT_CURRENCY)
+    Money.new(840).exchange_to(currency)
+  end
 
   def self.shipping(currency = DEFAULT_CURRENCY)
     Money.new(0).exchange_to(currency)
@@ -130,6 +134,8 @@ module AislerPricing
       Money.new(168)
     when 99
       express_shipping(currency)
+    when 84
+      registration_frame_price(currency)
     end
   end
 
