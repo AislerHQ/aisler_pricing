@@ -18,24 +18,13 @@ module AislerPricing
   end
 
   # All dimensions must be in mm2
-  def self.board_price(dimension, quantity, product, currency = DEFAULT_CURRENCY)
-    area = case dimension
-    when Hash
-      dimension[:width] * dimension[:height]
-    when Array
-      dimension[0] * dimension[1]
-    when Integer
-      dimension.to_f
-    when Float
-      dimension
-    else
-      return Money.new(0)
-    end
+  def self.board_price(args, currency = DEFAULT_CURRENCY)
+    area = args[:area] ? args[:area] : (args[:width] * args[:height])
     area /= 100
 
-    return Money.new(0) unless (105..155).include? product
+    return Money.new(0) unless (105..155).include? args[:product_uid]
 
-    base = case product
+    base = case args[:product_uid]
     when 105
       10.20
     when 106
@@ -43,7 +32,7 @@ module AislerPricing
     when 107
       12.30
     end
-    price_per_cm2 = case product
+    price_per_cm2 = case args[:product_uid]
     when 105
       0.084
     when 106
@@ -52,25 +41,21 @@ module AislerPricing
       0.185
     end
 
-    total = area * quantity * price_per_cm2
+    total = area * args[:quantity] * price_per_cm2
     total += base
-    total /= quantity
+    total /= args[:quantity]
     Money.new((total * 100).round).exchange_to(currency)
   end
 
-  def self.stencil_price(dimension, currency = DEFAULT_CURRENCY)
-    area = case dimension
-    when Hash
-      dimension[:width] * dimension[:height]
-    when Array
-      dimension[0] * dimension[1]
-    else
-      dimension
-    end
+  def self.stencil_price(args, currency = DEFAULT_CURRENCY)
+    factor = (args[:smd_pad_count_top] || 0).zero? || (args[:smd_pad_count_bottom] || 0).zero? ? 1.0 : 2.0
+    
+    area = args[:area] ? args[:area] : (args[:width] * args[:height])
     area /= 100
+    area *= factor
 
     base = 10.0
-    price_per_cm2 = 0.157
+    price_per_cm2 = 0.095
 
     total = area * price_per_cm2
     total += base
@@ -89,40 +74,14 @@ module AislerPricing
     Money.new(1500).exchange_to(currency)
   end
 
-  def self.panel_price(area, quantity, rows, cols, product)
-    case product
-    when 155
-      fix = 70.0
-      a = 0.111
-      b = 0.332
-    when 156
-      fix = 100.0
-      a = 0.111
-      b = 0.329
-    when 157
-      fix = 130.0
-      a = 0.355
-      b = 0.454
-    end
-
-    pieces = rows * cols
-    area /= 100
-    area = area * quantity * rows * cols
-
-    price_cents = ((a * 100 ** b) * ( area ** (1 - b)) + fix) * 100
-    Money.new(price_cents / quantity)
-  end
-
   def self.price(product_uid, args = {})
     currency = args[:currency] || DEFAULT_CURRENCY
 
     case product_uid
     when 103
-      stencil_price(args[:area], currency)
+      stencil_price(args.slice(:area, :smd_pad_count_top, :smd_pad_count_bottom), currency)
     when (105..154)
-      board_price(args[:area], args[:quantity], product_uid, currency)
-    when (155..199)
-      panel_price(args[:area], args[:quantity], args[:rows], args[:cols], product_uid)
+      board_price(args.slice(:area, :quantity).merge(product_uid: product_uid), currency)
     when 202
       Money.new(0)
     when 203
