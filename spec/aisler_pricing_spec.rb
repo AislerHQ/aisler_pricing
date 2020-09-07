@@ -95,4 +95,28 @@ RSpec.describe AislerPricing do
       { width: 20, height: 20, quantity: 100, product_uid: 106 },
     ].each { |args| puts (AislerPricing.board_price(args) * 1.19).format }
   end
+
+  it 'should return prices for Precious Parts in EUR' do
+    args = {
+      bom_price_cents: 1337
+    }
+    expect(AislerPricing.price(102, args).cents).to eq(1838)
+  end
+
+  it 'should return prices for Precious Parts in other currency' do
+    args = {
+      bom_price_cents: 1337,
+      currency: 'USD'
+    }
+
+    result = AislerPricing.price(102, args)
+    expect(result.currency).to eq(args[:currency])
+  end
+
+  it 'should return zero value for Precious Parts if no parts are included' do
+    args = {
+      bom_price_cents: 0
+    }
+    expect(AislerPricing.price(102, args).cents).to eq(0)
+  end
 end
