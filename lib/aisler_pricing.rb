@@ -79,7 +79,7 @@ module AislerPricing
 
     bom_price = args[:bom_price_cents] || 0
 
-    return Money.new(0, currency: currency) unless bom_price.positive?
+    return Money.new(0, currency) unless bom_price.positive?
 
     precious_parts_base_fee_cents = 300
     total += precious_parts_base_fee_cents

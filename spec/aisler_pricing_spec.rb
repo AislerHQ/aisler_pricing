@@ -97,20 +97,26 @@ RSpec.describe AislerPricing do
   end
 
   it 'should return prices for Precious Parts in EUR' do
-    bom_price = 1337
-    expect(AislerPricing.price(product_uid: 102, bom_price_cents: bom_price).cents).to eq(1838)
+    args = {
+      bom_price_cents: 1337
+    }
+    expect(AislerPricing.price(102, args).cents).to eq(1838)
   end
 
   it 'should return prices for Precious Parts in other currency' do
-    bom_price = 1337
-    currency = 'USD'
+    args = {
+      bom_price_cents: 1337,
+      currency: 'USD'
+    }
 
-    result = AislerPricing.price(product_uid: 102, bom_price_cents: bom_price, currency: currency)
-    expect(result.cents).to eq(2114)
-    expect(result.currency).to eq(currency)
+    result = AislerPricing.price(102, args)
+    expect(result.currency).to eq(args[:currency])
   end
 
   it 'should return zero value for Precious Parts if no parts are included' do
-    expect(AislerPricing.price(product_uid: 102, bom_price_cents: 0).cents).to eq(0)
+    args = {
+      bom_price_cents: 0
+    }
+    expect(AislerPricing.price(102, args).cents).to eq(0)
   end
 end
