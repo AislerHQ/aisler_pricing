@@ -74,10 +74,30 @@ module AislerPricing
     Money.new(1500).exchange_to(currency)
   end
 
+  def self.precious_parts_price(args = {}, currency = DEFAULT_CURRENCY)
+    total = 0
+
+    bom_price = args[:bom_price_cents] || 0
+
+    return Money.new(0, currency) unless bom_price.positive?
+
+    precious_parts_base_fee_cents = 300
+    total += precious_parts_base_fee_cents
+
+    bom_price_cents = args[:bom_price_cents] || 0
+    service_charge = 1.15
+
+    total += (bom_price_cents * service_charge).round
+
+    Money.new(total).exchange_to(currency)
+  end
+
   def self.price(product_uid, args = {})
     currency = args[:currency] || DEFAULT_CURRENCY
 
     case product_uid
+    when 102
+      precious_parts_price(args, currency)
     when 103
       stencil_price(args.slice(:area, :smd_pad_count_top, :smd_pad_count_bottom), currency)
     when (105..154)
