@@ -75,16 +75,19 @@ module AislerPricing
   end
 
   def self.precious_parts_price(args = {}, currency = DEFAULT_CURRENCY)
-    total = 0.00
+    total = 0
+
+    bom_price = args[:bom_price_cents] || 0
+
+    return Money.new(0).exchange_to(currency) unless bom_price.positive?
 
     precious_parts_base_fee_cents = 300
-    # Charge Precious Parts Fee (only if parts are ordered, hence price is positive value)
-    total += precious_parts_base_fee_cents if args[:bom_price_cents].positive?
+    total += precious_parts_base_fee_cents
 
-    bom_price_cents = args[:bom_price_cents] || 0.00
+    bom_price_cents = args[:bom_price_cents] || 0
     service_charge = 1.15
 
-    total += (bom_price_cents * service_charge)
+    total += bom_price_cents * service_charge
 
     Money.new(total).exchange_to(currency)
   end
