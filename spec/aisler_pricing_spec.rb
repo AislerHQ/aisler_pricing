@@ -101,7 +101,6 @@ RSpec.describe AislerPricing do
     expect(AislerPricing.price(product_uid: 102, bom_price_cents: bom_price).cents).to eq(1838)
   end
 
-
   it 'should return prices for Precious Parts in other currency' do
     bom_price = 1337
     currency = 'USD'
