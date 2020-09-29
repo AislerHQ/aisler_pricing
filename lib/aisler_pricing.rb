@@ -43,7 +43,6 @@ module AislerPricing
 
     total = area * args[:quantity] * price_per_cm2
     total += base
-    total /= args[:quantity]
     Money.new((total * 100).round).exchange_to(currency)
   end
 
