@@ -75,7 +75,7 @@ module AislerPricing
 
   def self.precious_parts_price(args = {}, currency = DEFAULT_CURRENCY)
     bom_price_cents = args[:bom_price_cents] || 0
-    return Money.new(0, currency) if bom_price_cents.negative?
+    return Money.new(0, currency) unless bom_price_cents.positive?
 
     base_fee_cents = 300
     service_charge = 1.15
