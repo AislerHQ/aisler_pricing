@@ -17,6 +17,21 @@ module AislerPricing
     Money.default_bank.update_rates
   end
 
+  def self.shipping_prices_data(country_code = nil)
+    shipping_config ||= YAML.load(IO.read('lib/shipping_prices.yml'), symbolize_names: true)
+
+    if country_code
+      country_code = country_code.downcase.to_sym
+
+      default_config = shipping_config.dig(:shipping_prices, :default) || {}
+      country_config = shipping_config.dig(:shipping_prices, country_code) || {}
+
+      default_config.merge(country_config)
+    else
+      shipping_config
+    end
+  end
+
   # All dimensions must be in mm2
   def self.board_price(args, currency = DEFAULT_CURRENCY)
     area = args[:area] ? args[:area] : (args[:width] * args[:height])
@@ -69,8 +84,11 @@ module AislerPricing
     Money.new(0).exchange_to(currency)
   end
 
-  def self.express_shipping(currency = DEFAULT_CURRENCY)
-    Money.new(1500).exchange_to(currency)
+  def self.express_shipping(currency = DEFAULT_CURRENCY, args = {})
+    country_code = args[:country_code]
+    net_price = (country_code ? self.shipping_prices_data(country_code)[:express_net_price] * 100 : 1500)
+
+    Money.new(net_price).exchange_to(currency)
   end
 
   def self.precious_parts_price(args = {}, currency = DEFAULT_CURRENCY)
@@ -108,7 +126,7 @@ module AislerPricing
     when 72
       Money.new(168)
     when 99
-      express_shipping(currency)
+      express_shipping(currency, args)
     when 84
       registration_frame_price(currency)
     end

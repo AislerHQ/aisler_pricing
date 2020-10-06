@@ -33,11 +33,11 @@ RSpec.describe AislerPricing do
     price = AislerPricing.stencil_price(width: 1, height: 1) # Really small stencil
     expect(price).to be_an_instance_of Money
     expect(price.cents).to eq(1000) # Base price for stencils
-    
+
     price = AislerPricing.stencil_price(width: 110, height: 70, smd_pad_count_top: 10, smd_pad_count_bottom: 10)
     expect(price).to be_an_instance_of Money
     expect(price.cents).to eq(2463)
-    
+
     price = AislerPricing.stencil_price(width: 50, height: 60)
     expect(price).to be_an_instance_of Money
     expect(price.cents).to eq(1285)
@@ -45,11 +45,11 @@ RSpec.describe AislerPricing do
     price = AislerPricing.stencil_price(width: 160, height: 100)
     expect(price).to be_an_instance_of Money
     expect(price.cents).to eq(2520)
-    
+
     price = AislerPricing.stencil_price(width: 200, height: 200)
     expect(price).to be_an_instance_of Money
     expect(price.cents).to eq(4800)
-    
+
     price = AislerPricing.stencil_price(width: 300, height: 300)
     expect(price).to be_an_instance_of Money
     expect(price.cents).to eq(9550)
@@ -63,7 +63,7 @@ RSpec.describe AislerPricing do
 
   it 'should receive PCB price as US Dollars' do
     price = AislerPricing.board_price({ area: 100, quantity: 3, product_uid: 105 }, 'USD')
-    
+
     expect(price.currency).to eq('USD')
   end
 
@@ -85,7 +85,7 @@ RSpec.describe AislerPricing do
     expect(AislerPricing.price(105, area: 1, quantity: 3).cents).to eq(1020)
     expect(AislerPricing.price(103, area: 1600, smd_pad_count_top: 10, smd_pad_count_bottom: 0).cents).to eq(1152)
   end
-  
+
   it 'output prices for uC net listing' do
     [
       { width: 160, height: 100, quantity: 3, product_uid: 105 },
@@ -118,5 +118,105 @@ RSpec.describe AislerPricing do
       bom_price_cents: 0
     }
     expect(AislerPricing.price(102, args).cents).to eq(0)
+  end
+
+  context 'regarding shipping prices' do
+    it 'should return the standard express shipping' do
+      result = AislerPricing.price(99)
+      expect(result.cents).to eq(1500)
+    end
+
+    it 'should return correct express price for Germany' do
+      args = {
+        country_code: 'DE'
+      }
+
+      result = AislerPricing.price(99, args)
+      expect(result.cents).to eq(799)
+    end
+
+    it 'should return correct express price for Tier A countries' do
+      tier_countries = %w[be lu nl at cz]
+
+      results = tier_countries.map do |cc|
+        args = {
+          country_code: cc
+        }
+
+        AislerPricing.price(99, args).cents
+      end
+
+      expect(results).to all(eq(899))
+    end
+
+    it 'should return correct express price for Tier B countries' do
+      tier_countries = %w[dk fr gb it cr ro sk si hu]
+
+      results = tier_countries.map do |cc|
+        args = {
+          country_code: cc
+        }
+
+        AislerPricing.price(99, args).cents
+      end
+
+      expect(results).to all(eq(1099))
+    end
+
+    it 'should return correct express price for Tier C countries' do
+      tier_countries = %w[bg ee fi gr ir lt lv mt pt se es cy]
+
+      results = tier_countries.map do |cc|
+        args = {
+          country_code: cc
+        }
+
+        AislerPricing.price(99, args).cents
+      end
+
+      expect(results).to all(eq(1299))
+    end
+
+    it 'should return correct express price for Tier D countries' do
+      tier_countries = %w[ad gg je no sm ch]
+
+      results = tier_countries.map do |cc|
+        args = {
+          country_code: cc
+        }
+
+        AislerPricing.price(99, args).cents
+      end
+
+      expect(results).to all(eq(1999))
+    end
+
+    it 'should return correct express price for Tier E countries' do
+      tier_countries = %w[hk in ca mx tr ua ru ae us cn]
+
+      results = tier_countries.map do |cc|
+        args = {
+          country_code: cc
+        }
+
+        AislerPricing.price(99, args).cents
+      end
+
+      expect(results).to all(eq(2399))
+    end
+
+    it 'should return correct express price for Tier F (RotW) countries' do
+      tier_countries = %w[jp au]
+
+      results = tier_countries.map do |cc|
+        args = {
+          country_code: cc
+        }
+
+        AislerPricing.price(99, args).cents
+      end
+
+      expect(results).to all(eq(3299))
+    end
   end
 end
