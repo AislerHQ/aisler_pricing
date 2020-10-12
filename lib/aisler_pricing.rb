@@ -23,12 +23,12 @@ module AislerPricing
     if country_code
       country_code = country_code.downcase.to_sym
 
-      default_config = shipping_config.dig(:shipping_prices, :default) || {}
-      country_config = shipping_config.dig(:shipping_prices, country_code) || {}
+      default_config = shipping_config.dig(:default) || {}
+      country_config = shipping_config.dig(country_code) || {}
 
       default_config.merge(country_config)
     else
-      shipping_config
+      shipping_config.dig(:default_country_unknown)
     end
   end
 
@@ -86,7 +86,7 @@ module AislerPricing
 
   def self.express_shipping(args = {}, currency = DEFAULT_CURRENCY)
     country_code = args[:country_code]
-    net_price = (country_code ? self.shipping_prices_data(country_code)[:express_net_price] * 100 : 1500)
+    net_price = self.shipping_prices_data(country_code)[:express_net_price] * 100
 
     Money.new(net_price).exchange_to(currency)
   end

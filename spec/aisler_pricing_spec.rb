@@ -121,8 +121,8 @@ RSpec.describe AislerPricing do
   end
 
   context 'regarding shipping prices' do
-    it 'should return the standard express shipping' do
-      result = AislerPricing.price(99)
+    it 'should return the standard express shipping if no country is given' do
+      result = AislerPricing.express_shipping
       expect(result.cents).to eq(1500)
     end
 
@@ -131,7 +131,7 @@ RSpec.describe AislerPricing do
         country_code: 'DE'
       }
 
-      result = AislerPricing.price(99, args)
+      result = AislerPricing.express_shipping(args)
       expect(result.cents).to eq(799)
     end
 
@@ -143,7 +143,7 @@ RSpec.describe AislerPricing do
           country_code: cc
         }
 
-        AislerPricing.price(99, args).cents
+        AislerPricing.express_shipping(args).cents
       end
 
       expect(results).to all(eq(899))
@@ -157,7 +157,7 @@ RSpec.describe AislerPricing do
           country_code: cc
         }
 
-        AislerPricing.price(99, args).cents
+        AislerPricing.express_shipping(args).cents
       end
 
       expect(results).to all(eq(1099))
@@ -171,7 +171,7 @@ RSpec.describe AislerPricing do
           country_code: cc
         }
 
-        AislerPricing.price(99, args).cents
+        AislerPricing.express_shipping(args).cents
       end
 
       expect(results).to all(eq(1299))
@@ -185,7 +185,7 @@ RSpec.describe AislerPricing do
           country_code: cc
         }
 
-        AislerPricing.price(99, args).cents
+        AislerPricing.express_shipping(args).cents
       end
 
       expect(results).to all(eq(1999))
@@ -199,7 +199,7 @@ RSpec.describe AislerPricing do
           country_code: cc
         }
 
-        AislerPricing.price(99, args).cents
+        AislerPricing.express_shipping(args).cents
       end
 
       expect(results).to all(eq(2399))
@@ -213,7 +213,7 @@ RSpec.describe AislerPricing do
           country_code: cc
         }
 
-        AislerPricing.price(99, args).cents
+        AislerPricing.express_shipping(args).cents
       end
 
       expect(results).to all(eq(3299))

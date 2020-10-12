@@ -1,79 +1,77 @@
 ---
-shipping_prices:
-  tierA0: &shipping_tier_AA
-    express_net_price: 7.99
+tierA0: &shipping_tier_AA
+  express_net_price: 7.99
 
-  tierA: &shipping_tier_A
-    express_net_price: 8.99
+tierA: &shipping_tier_A
+  express_net_price: 8.99
 
-  tierB: &shipping_tier_B
-    express_net_price: 10.99
+tierB: &shipping_tier_B
+  express_net_price: 10.99
 
-  tierC: &shipping_tier_C
-    express_net_price: 12.99
+tierC: &shipping_tier_C
+  express_net_price: 12.99
 
-  tierD: &shipping_tier_D
-    express_net_price: 19.99
+tierD: &shipping_tier_D
+  express_net_price: 19.99
 
-  tierE: &shipping_tier_E
-    express_net_price: 23.99
+tierE: &shipping_tier_E
+  express_net_price: 23.99
 
-  tierZ: &shipping_tier_F
-    express_net_price: 32.99
+tierZ: &shipping_tier_F
+  express_net_price: 32.99
 
-  defaulttier: &shipping_tier_default
-    express_net_price: 15.00
+tierOld: &shipping_tier_old
+  express_net_price: 15.00
 
-  # Actual mapping of countries to the price tiers
-  de: *shipping_tier_AA # Germany
+# Actual mapping of countries to the price tiers
+de: *shipping_tier_AA # Germany
 
-  be: *shipping_tier_A # Belgium
-  lu: *shipping_tier_A # Luxembourg
-  nl: *shipping_tier_A # Netherlands
-  at: *shipping_tier_A # Austria
-  cz: *shipping_tier_A # Czech Rep.
+be: *shipping_tier_A # Belgium
+lu: *shipping_tier_A # Luxembourg
+nl: *shipping_tier_A # Netherlands
+at: *shipping_tier_A # Austria
+cz: *shipping_tier_A # Czech Rep.
 
-  dk: *shipping_tier_B # Denmark
-  fr: *shipping_tier_B # France
-  gb: *shipping_tier_B # Great Britain
-  it: *shipping_tier_B # Italy
-  cr: *shipping_tier_B # Croatia
-  ro: *shipping_tier_B # Romania
-  sk: *shipping_tier_B # Slovakia
-  si: *shipping_tier_B # Slovenia
-  hu: *shipping_tier_B # Hungary
+dk: *shipping_tier_B # Denmark
+fr: *shipping_tier_B # France
+gb: *shipping_tier_B # Great Britain
+it: *shipping_tier_B # Italy
+cr: *shipping_tier_B # Croatia
+ro: *shipping_tier_B # Romania
+sk: *shipping_tier_B # Slovakia
+si: *shipping_tier_B # Slovenia
+hu: *shipping_tier_B # Hungary
 
-  bg: *shipping_tier_C # Bulgaria
-  ee: *shipping_tier_C # Estonia
-  fi: *shipping_tier_C # Finland
-  gr: *shipping_tier_C # Greece
-  ir: *shipping_tier_C # Ireland
-  lt: *shipping_tier_C # Lithuania
-  lv: *shipping_tier_C # Latvia
-  mt: *shipping_tier_C # Malta
-  pt: *shipping_tier_C # Portugal
-  se: *shipping_tier_C # Sweden
-  es: *shipping_tier_C # Spain
-  cy: *shipping_tier_C # Cyprus
+bg: *shipping_tier_C # Bulgaria
+ee: *shipping_tier_C # Estonia
+fi: *shipping_tier_C # Finland
+gr: *shipping_tier_C # Greece
+ir: *shipping_tier_C # Ireland
+lt: *shipping_tier_C # Lithuania
+lv: *shipping_tier_C # Latvia
+mt: *shipping_tier_C # Malta
+pt: *shipping_tier_C # Portugal
+se: *shipping_tier_C # Sweden
+es: *shipping_tier_C # Spain
+cy: *shipping_tier_C # Cyprus
 
-  ad: *shipping_tier_D # Andorra
-  gg: *shipping_tier_D # Guernsey
-  je: *shipping_tier_D # Jersey
-  'no': *shipping_tier_D # Norway
-  sm: *shipping_tier_D # San Marino
-  ch: *shipping_tier_D # Switzerland
+ad: *shipping_tier_D # Andorra
+gg: *shipping_tier_D # Guernsey
+je: *shipping_tier_D # Jersey
+'no': *shipping_tier_D # Norway
+sm: *shipping_tier_D # San Marino
+ch: *shipping_tier_D # Switzerland
 
-  hk: *shipping_tier_E # Hong Kong
-  in: *shipping_tier_E # India
-  ca: *shipping_tier_E # Canada
-  mx: *shipping_tier_E # Mexico
-  tr: *shipping_tier_E # Turkey
-  ua: *shipping_tier_E # Ukraine
-  ru: *shipping_tier_E # Russia
-  ae: *shipping_tier_E # United Arab Emirates
-  us: *shipping_tier_E # United States of America
-  cn: *shipping_tier_E # China
+hk: *shipping_tier_E # Hong Kong
+in: *shipping_tier_E # India
+ca: *shipping_tier_E # Canada
+mx: *shipping_tier_E # Mexico
+tr: *shipping_tier_E # Turkey
+ua: *shipping_tier_E # Ukraine
+ru: *shipping_tier_E # Russia
+ae: *shipping_tier_E # United Arab Emirates
+us: *shipping_tier_E # United States of America
+cn: *shipping_tier_E # China
 
-  default:
-    standard_net_price: 0.0
-    <<: *shipping_tier_F
+default: *shipping_tier_F
+default_country_unknown: *shipping_tier_old
