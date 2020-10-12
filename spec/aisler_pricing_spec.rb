@@ -1,3 +1,5 @@
+require 'countries'
+
 RSpec.describe AislerPricing do
   it "has a version number" do
     expect(AislerPricing::VERSION).not_to be nil
@@ -121,102 +123,134 @@ RSpec.describe AislerPricing do
   end
 
   context 'regarding shipping prices' do
-    it 'should return the standard express shipping if no country is given' do
+    it 'returns the standard express shipping if no country is given' do
       result = AislerPricing.express_shipping
       expect(result.cents).to eq(1500)
     end
 
-    it 'should return correct express price for Germany' do
-      args = {
-        country_code: 'DE'
-      }
+    context 'for Tier AA (Domestic Germany)' do
+      it 'returns correct express price for Germany' do
+        args = {
+          country_code: 'DE'
+        }
 
-      result = AislerPricing.express_shipping(args)
-      expect(result.cents).to eq(799)
+        result = AislerPricing.express_shipping(args)
+        expect(result.cents).to eq(799)
+      end
     end
 
-    it 'should return correct express price for Tier A countries' do
+    context 'for Tier A countries' do
       tier_countries = %w[be lu nl at cz]
+      
+      tier_countries.map do |cc| 
+        it "returns correct express price for #{cc} (#{ISO3166::Country(cc).name})" do
+        
+          results = tier_countries.map do |cc|
+            args = {
+              country_code: cc
+            }
 
-      results = tier_countries.map do |cc|
-        args = {
-          country_code: cc
-        }
+            AislerPricing.express_shipping(args).cents
+          end
 
-        AislerPricing.express_shipping(args).cents
+          expect(results).to all(eq(899))
+        end
       end
-
-      expect(results).to all(eq(899))
     end
-
-    it 'should return correct express price for Tier B countries' do
+    
+    context 'for Tier B countries' do
       tier_countries = %w[dk fr gb it cr ro sk si hu]
+      
+      tier_countries.map do |cc| 
+        it "returns correct express price for #{cc} (#{ISO3166::Country(cc).name})" do
+        
+          results = tier_countries.map do |cc|
+            args = {
+              country_code: cc
+            }
 
-      results = tier_countries.map do |cc|
-        args = {
-          country_code: cc
-        }
+            AislerPricing.express_shipping(args).cents
+          end
 
-        AislerPricing.express_shipping(args).cents
+          expect(results).to all(eq(1099))
+        end
       end
-
-      expect(results).to all(eq(1099))
     end
-
-    it 'should return correct express price for Tier C countries' do
+    
+    context 'for Tier C countries' do
       tier_countries = %w[bg ee fi gr ir lt lv mt pt se es cy]
 
-      results = tier_countries.map do |cc|
-        args = {
-          country_code: cc
-        }
+      tier_countries.map do |cc| 
+        it "returns correct express price for #{cc} (#{ISO3166::Country(cc).name})" do
+        
+          results = tier_countries.map do |cc|
+            args = {
+              country_code: cc
+            }
 
-        AislerPricing.express_shipping(args).cents
+            AislerPricing.express_shipping(args).cents
+          end
+
+          expect(results).to all(eq(1299))
+        end
       end
-
-      expect(results).to all(eq(1299))
     end
-
-    it 'should return correct express price for Tier D countries' do
+    
+    context 'for Tier D countries' do
       tier_countries = %w[ad gg je no sm ch]
+      
+      tier_countries.map do |cc| 
+        it "returns correct express price for #{cc} (#{ISO3166::Country(cc).name})" do
+        
+          results = tier_countries.map do |cc|
+            args = {
+              country_code: cc
+            }
 
-      results = tier_countries.map do |cc|
-        args = {
-          country_code: cc
-        }
+            AislerPricing.express_shipping(args).cents
+          end
 
-        AislerPricing.express_shipping(args).cents
+          expect(results).to all(eq(1999))
+        end
       end
-
-      expect(results).to all(eq(1999))
     end
-
-    it 'should return correct express price for Tier E countries' do
+    
+    context 'for Tier E countries' do
       tier_countries = %w[hk in ca mx tr ua ru ae us cn]
 
-      results = tier_countries.map do |cc|
-        args = {
-          country_code: cc
-        }
+      tier_countries.map do |cc| 
+        it "returns correct express price for #{cc} (#{ISO3166::Country(cc).name})" do
+        
+          results = tier_countries.map do |cc|
+            args = {
+              country_code: cc
+            }
 
-        AislerPricing.express_shipping(args).cents
+            AislerPricing.express_shipping(args).cents
+          end
+
+          expect(results).to all(eq(2399))
+        end
       end
-
-      expect(results).to all(eq(2399))
     end
+    
+    context 'for Tier F (RotW) countries' do
+      tier_countries =  %w[jp au]
+      
+      tier_countries.map do |cc| 
+        it "returns correct express price for #{cc} (#{ISO3166::Country(cc).name})" do
+        
+          results = tier_countries.map do |cc|
+            args = {
+              country_code: cc
+            }
 
-    it 'should return correct express price for Tier F (RotW) countries' do
-      tier_countries = %w[jp au]
+            AislerPricing.express_shipping(args).cents
+          end
 
-      results = tier_countries.map do |cc|
-        args = {
-          country_code: cc
-        }
-
-        AislerPricing.express_shipping(args).cents
+          expect(results).to all(eq(3299))
+        end
       end
-
-      expect(results).to all(eq(3299))
     end
   end
 end
