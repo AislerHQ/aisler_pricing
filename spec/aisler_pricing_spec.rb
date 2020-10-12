@@ -128,6 +128,16 @@ RSpec.describe AislerPricing do
       expect(result.cents).to eq(1500)
     end
 
+    it '.price calls the express_shipping method with the correct parameters' do
+      args = {
+        country_code: 'DE'
+      }
+      
+      expect(AislerPricing).to receive(:express_shipping).with(args, 'EUR')
+
+      AislerPricing.price(99, args)
+    end
+
     context 'for Tier AA (Domestic Germany)' do
       it 'returns correct express price for Germany' do
         args = {
