@@ -23,12 +23,12 @@ module AislerPricing
     if country_code
       country_code = country_code.downcase.to_sym
 
-      default_config = shipping_config.dig(:default) || {}
+      default_config = shipping_config.dig(:global) || {}
       country_config = shipping_config.dig(country_code) || {}
 
       default_config.merge(country_config)
     else
-      shipping_config.dig(:default_country_unknown)
+      shipping_config.dig(:fallback_country_not_given)
     end
   end
 
@@ -63,7 +63,7 @@ module AislerPricing
 
   def self.stencil_price(args, currency = DEFAULT_CURRENCY)
     factor = (args[:smd_pad_count_top] || 0).zero? || (args[:smd_pad_count_bottom] || 0).zero? ? 1.0 : 2.0
-    
+
     area = args[:area] ? args[:area] : (args[:width] * args[:height])
     area /= 100
     area *= factor
@@ -75,7 +75,7 @@ module AislerPricing
     total += base
     Money.new((total * 100).round).exchange_to(currency)
   end
-  
+
   def self.registration_frame_price(currency = DEFAULT_CURRENCY)
     Money.new(840).exchange_to(currency)
   end
@@ -101,7 +101,7 @@ module AislerPricing
     total = 0
     total += (bom_price_cents * service_charge).round
     total += base_fee_cents
-    
+
     Money.new(total).exchange_to(currency)
   end
 

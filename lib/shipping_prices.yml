@@ -1,77 +1,77 @@
 ---
-tierA0: &shipping_tier_AA
+tierA0: &tierA0
   express_net_price: 7.99
 
-tierA: &shipping_tier_A
+tierA: &tierA
   express_net_price: 8.99
 
-tierB: &shipping_tier_B
+tierB: &tierB
   express_net_price: 10.99
 
-tierC: &shipping_tier_C
+tierC: &tierC
   express_net_price: 12.99
 
-tierD: &shipping_tier_D
+tierD: &tierD
   express_net_price: 19.99
 
-tierE: &shipping_tier_E
+tierE: &tierE
   express_net_price: 23.99
 
-tierZ: &shipping_tier_F
+tierF: &tierF
   express_net_price: 32.99
 
-tierOld: &shipping_tier_old
+tierNA: &tierNA
   express_net_price: 15.00
 
 # Actual mapping of countries to the price tiers
-de: *shipping_tier_AA # Germany
+de: *tierA0 # Germany
 
-be: *shipping_tier_A # Belgium
-lu: *shipping_tier_A # Luxembourg
-nl: *shipping_tier_A # Netherlands
-at: *shipping_tier_A # Austria
-cz: *shipping_tier_A # Czech Rep.
+be: *tierA # Belgium
+lu: *tierA # Luxembourg
+nl: *tierA # Netherlands
+at: *tierA # Austria
+cz: *tierA # Czech Rep.
 
-dk: *shipping_tier_B # Denmark
-fr: *shipping_tier_B # France
-gb: *shipping_tier_B # Great Britain
-it: *shipping_tier_B # Italy
-cr: *shipping_tier_B # Croatia
-ro: *shipping_tier_B # Romania
-sk: *shipping_tier_B # Slovakia
-si: *shipping_tier_B # Slovenia
-hu: *shipping_tier_B # Hungary
+dk: *tierB # Denmark
+fr: *tierB # France
+gb: *tierB # Great Britain
+it: *tierB # Italy
+cr: *tierB # Croatia
+ro: *tierB # Romania
+sk: *tierB # Slovakia
+si: *tierB # Slovenia
+hu: *tierB # Hungary
 
-bg: *shipping_tier_C # Bulgaria
-ee: *shipping_tier_C # Estonia
-fi: *shipping_tier_C # Finland
-gr: *shipping_tier_C # Greece
-ir: *shipping_tier_C # Ireland
-lt: *shipping_tier_C # Lithuania
-lv: *shipping_tier_C # Latvia
-mt: *shipping_tier_C # Malta
-pt: *shipping_tier_C # Portugal
-se: *shipping_tier_C # Sweden
-es: *shipping_tier_C # Spain
-cy: *shipping_tier_C # Cyprus
+bg: *tierC # Bulgaria
+ee: *tierC # Estonia
+fi: *tierC # Finland
+gr: *tierC # Greece
+ir: *tierC # Ireland
+lt: *tierC # Lithuania
+lv: *tierC # Latvia
+mt: *tierC # Malta
+pt: *tierC # Portugal
+se: *tierC # Sweden
+es: *tierC # Spain
+cy: *tierC # Cyprus
 
-ad: *shipping_tier_D # Andorra
-gg: *shipping_tier_D # Guernsey
-je: *shipping_tier_D # Jersey
-'no': *shipping_tier_D # Norway
-sm: *shipping_tier_D # San Marino
-ch: *shipping_tier_D # Switzerland
+ad: *tierD # Andorra
+gg: *tierD # Guernsey
+je: *tierD # Jersey
+'no': *tierD # Norway
+sm: *tierD # San Marino
+ch: *tierD # Switzerland
 
-hk: *shipping_tier_E # Hong Kong
-in: *shipping_tier_E # India
-ca: *shipping_tier_E # Canada
-mx: *shipping_tier_E # Mexico
-tr: *shipping_tier_E # Turkey
-ua: *shipping_tier_E # Ukraine
-ru: *shipping_tier_E # Russia
-ae: *shipping_tier_E # United Arab Emirates
-us: *shipping_tier_E # United States of America
-cn: *shipping_tier_E # China
+hk: *tierE # Hong Kong
+in: *tierE # India
+ca: *tierE # Canada
+mx: *tierE # Mexico
+tr: *tierE # Turkey
+ua: *tierE # Ukraine
+ru: *tierE # Russia
+ae: *tierE # United Arab Emirates
+us: *tierE # United States of America
+cn: *tierE # China
 
-default: *shipping_tier_F
-default_country_unknown: *shipping_tier_old
+global: *tierF # Price for Rest of the World
+fallback_country_not_given: *tierNA # Fallback price if the country is not known/given
