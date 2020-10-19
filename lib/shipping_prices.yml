@@ -1,0 +1,77 @@
+---
+tierA0: &tierA0
+  express_net_price: 7.99
+
+tierA: &tierA
+  express_net_price: 8.99
+
+tierB: &tierB
+  express_net_price: 10.99
+
+tierC: &tierC
+  express_net_price: 12.99
+
+tierD: &tierD
+  express_net_price: 19.99
+
+tierE: &tierE
+  express_net_price: 23.99
+
+tierF: &tierF
+  express_net_price: 32.99
+
+tierNA: &tierNA
+  express_net_price: 15.00
+
+# Actual mapping of countries to the price tiers
+de: *tierA0 # Germany
+
+be: *tierA # Belgium
+lu: *tierA # Luxembourg
+nl: *tierA # Netherlands
+at: *tierA # Austria
+cz: *tierA # Czech Rep.
+
+dk: *tierB # Denmark
+fr: *tierB # France
+gb: *tierB # Great Britain
+it: *tierB # Italy
+cr: *tierB # Croatia
+ro: *tierB # Romania
+sk: *tierB # Slovakia
+si: *tierB # Slovenia
+hu: *tierB # Hungary
+
+bg: *tierC # Bulgaria
+ee: *tierC # Estonia
+fi: *tierC # Finland
+gr: *tierC # Greece
+ir: *tierC # Ireland
+lt: *tierC # Lithuania
+lv: *tierC # Latvia
+mt: *tierC # Malta
+pt: *tierC # Portugal
+se: *tierC # Sweden
+es: *tierC # Spain
+cy: *tierC # Cyprus
+
+ad: *tierD # Andorra
+gg: *tierD # Guernsey
+je: *tierD # Jersey
+'no': *tierD # Norway
+sm: *tierD # San Marino
+ch: *tierD # Switzerland
+
+hk: *tierE # Hong Kong
+in: *tierE # India
+ca: *tierE # Canada
+mx: *tierE # Mexico
+tr: *tierE # Turkey
+ua: *tierE # Ukraine
+ru: *tierE # Russia
+ae: *tierE # United Arab Emirates
+us: *tierE # United States of America
+cn: *tierE # China
+
+global: *tierF # Price for Rest of the World
+fallback_country_not_given: *tierNA # Fallback price if the country is not known/given

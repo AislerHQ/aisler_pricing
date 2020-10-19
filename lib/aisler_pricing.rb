@@ -17,6 +17,21 @@ module AislerPricing
     Money.default_bank.update_rates
   end
 
+  def self.shipping_prices_data(country_code = nil)
+    shipping_config ||= YAML.load(IO.read('lib/shipping_prices.yml'), symbolize_names: true)
+
+    if country_code
+      country_code = country_code.downcase.to_sym
+
+      default_config = shipping_config.dig(:global) || {}
+      country_config = shipping_config.dig(country_code) || {}
+
+      default_config.merge(country_config)
+    else
+      shipping_config.dig(:fallback_country_not_given)
+    end
+  end
+
   # All dimensions must be in mm2
   def self.board_price(args, currency = DEFAULT_CURRENCY)
     area = args[:area] ? args[:area] : (args[:width] * args[:height])
@@ -48,7 +63,7 @@ module AislerPricing
 
   def self.stencil_price(args, currency = DEFAULT_CURRENCY)
     factor = (args[:smd_pad_count_top] || 0).zero? || (args[:smd_pad_count_bottom] || 0).zero? ? 1.0 : 2.0
-    
+
     area = args[:area] ? args[:area] : (args[:width] * args[:height])
     area /= 100
     area *= factor
@@ -60,7 +75,7 @@ module AislerPricing
     total += base
     Money.new((total * 100).round).exchange_to(currency)
   end
-  
+
   def self.registration_frame_price(currency = DEFAULT_CURRENCY)
     Money.new(840).exchange_to(currency)
   end
@@ -69,8 +84,11 @@ module AislerPricing
     Money.new(0).exchange_to(currency)
   end
 
-  def self.express_shipping(currency = DEFAULT_CURRENCY)
-    Money.new(1500).exchange_to(currency)
+  def self.express_shipping(args = {}, currency = DEFAULT_CURRENCY)
+    country_code = args[:country_code]
+    net_price = self.shipping_prices_data(country_code)[:express_net_price] * 100
+
+    Money.new(net_price).exchange_to(currency)
   end
 
   def self.precious_parts_price(args = {}, currency = DEFAULT_CURRENCY)
@@ -83,7 +101,7 @@ module AislerPricing
     total = 0
     total += (bom_price_cents * service_charge).round
     total += base_fee_cents
-    
+
     Money.new(total).exchange_to(currency)
   end
 
@@ -108,7 +126,7 @@ module AislerPricing
     when 72
       Money.new(168)
     when 99
-      express_shipping(currency)
+      express_shipping(args, currency)
     when 84
       registration_frame_price(currency)
     end
