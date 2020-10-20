@@ -96,7 +96,7 @@ module AislerPricing
     return Money.new(0, currency) unless bom_price_cents.positive?
 
     base_fee_cents = 300
-    service_charge = 1.15
+    service_charge = 1.20
 
     total = 0
     total += (bom_price_cents * service_charge).round
