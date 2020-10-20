@@ -104,6 +104,15 @@ module AislerPricing
 
     Money.new(total).exchange_to(currency)
   end
+  
+  def self.assembly_price(args, currency = DEFAULT_CURRENCY)
+    area = args[:area] ? args[:area] : (args[:width] * args[:height])
+    setup_fee = Money.new(7500) + (Money.new(450) * args[:bom_part_variance])
+    handling_fee = (area / 100) * args[:quantity] * Money.new(1)
+    placement_fee = args[:quantity] * args[:bom_part_total] * Money.new(5)
+    
+    setup_fee + handling_fee + placement_fee
+  end
 
   def self.price(product_uid, args = {})
     currency = args[:currency] || DEFAULT_CURRENCY
@@ -112,9 +121,16 @@ module AislerPricing
     when 102
       precious_parts_price(args, currency)
     when 103
-      stencil_price(args.slice(:area, :smd_pad_count_top, :smd_pad_count_bottom), currency)
+      stencil_price(args, currency)
+    when 104
+      sum = Money.new(0)
+      sum += board_price(args, currency)
+      sum += precious_parts_price(args, currency)
+      sum += stencil_price(args, currency)
+      sum += assembly_price(args, currency)
+      sum
     when (105..154)
-      board_price(args.slice(:area, :quantity).merge(product_uid: product_uid), currency)
+      board_price(args.merge(product_uid: product_uid), currency)
     when 202
       Money.new(0)
     when 203

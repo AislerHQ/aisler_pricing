@@ -121,6 +121,21 @@ RSpec.describe AislerPricing do
     }
     expect(AislerPricing.price(102, args).cents).to eq(0)
   end
+  
+  it 'should return assembly pricing' do
+    args = {
+      width: 80.0,
+      height: 57.0,
+      quantity: 30,
+      product_uid: 105,
+      bom_part_total: 31,
+      bom_part_variance: 13,
+      bom_price_cents: 1000
+    }
+    
+    expect(AislerPricing.assembly_price(args).cents).to eq(19368)
+    expect(AislerPricing.price(104, args).cents).to eq(34812)
+  end
 
   context 'regarding shipping prices' do
     it 'returns the standard express shipping if no country is given' do
