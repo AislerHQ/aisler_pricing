@@ -102,7 +102,7 @@ RSpec.describe AislerPricing do
     args = {
       bom_price_cents: 1337
     }
-    expect(AislerPricing.price(102, args).cents).to eq(1838)
+    expect(AislerPricing.price(102, args).cents).to eq(1904)
   end
 
   it 'should return prices for Precious Parts in other currency' do
