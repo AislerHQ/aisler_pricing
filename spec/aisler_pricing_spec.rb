@@ -11,7 +11,7 @@ RSpec.describe AislerPricing do
     expect(price.cents).to eq(1020) # Lowest price point
   end
 
-  it "should receive 4 layer PCB price in euros", focus: true do
+  it "should receive 4 layer PCB price in euros" do
     price = AislerPricing.board_price(area: 1, quantity: 3, product_uid: 107)
     expect(price).to be_an_instance_of Money
 
@@ -135,6 +135,21 @@ RSpec.describe AislerPricing do
     
     expect(AislerPricing.assembly_price(args).cents).to eq(19368)
     expect(AislerPricing.price(104, args).cents).to eq(34812)
+  end
+  
+  
+  it 'should return 0 if parts are not assigned for AA pricing' do
+    args = {
+      width: 80.0,
+      height: 57.0,
+      quantity: 30,
+      product_uid: 105,
+      bom_part_total: 31,
+      bom_part_variance: 13,
+      bom_price_cents: 0
+    }
+    
+    expect(AislerPricing.price(104, args).cents).to eq(0)
   end
 
   context 'regarding shipping prices' do

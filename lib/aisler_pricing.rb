@@ -123,12 +123,13 @@ module AislerPricing
     when 103
       stencil_price(args, currency)
     when 104
-      sum = Money.new(0)
-      sum += board_price(args, currency)
-      sum += precious_parts_price(args, currency)
-      sum += stencil_price(args, currency)
-      sum += assembly_price(args, currency)
-      sum
+      prices = [
+        board_price(args, currency),
+        precious_parts_price(args, currency),
+        stencil_price(args, currency),
+        assembly_price(args, currency)
+      ]
+      prices.any?(&:zero?) ? Money.new(0) : prices.sum
     when (105..154)
       board_price(args.merge(product_uid: product_uid), currency)
     when 202
