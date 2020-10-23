@@ -106,6 +106,9 @@ module AislerPricing
   end
   
   def self.assembly_price(args, currency = DEFAULT_CURRENCY)
+    args[:bom_part_variance]  ||= 0
+    args[:bom_part_total] ||= 0
+    
     area = args[:area] ? args[:area] : (args[:width] * args[:height])
     setup_fee = Money.new(7500) + (Money.new(450) * args[:bom_part_variance])
     handling_fee = (area / 100) * args[:quantity] * Money.new(1)
