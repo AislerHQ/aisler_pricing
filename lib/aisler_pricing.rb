@@ -18,7 +18,7 @@ module AislerPricing
   end
 
   def self.shipping_prices_data(country_code = nil)
-    shipping_config ||= YAML.load(IO.read(File.expand_path('../shipping_prices.yml', __FILE__)), symbolize_names: true)
+    shipping_config ||= YAML.load(IO.read(File.expand_path('../aisler_pricing/shipping_prices.yml', __FILE__)), symbolize_names: true)
 
     if country_code
       country_code = country_code.downcase.to_sym
