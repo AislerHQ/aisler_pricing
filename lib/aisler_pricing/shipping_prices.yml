@@ -30,6 +30,7 @@ be: *tierA # Belgium
 lu: *tierA # Luxembourg
 nl: *tierA # Netherlands
 at: *tierA # Austria
+pl: *tierA # Poland
 cz: *tierA # Czech Rep.
 
 dk: *tierB # Denmark
