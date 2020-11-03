@@ -18,7 +18,7 @@ module AislerPricing
   end
 
   def self.shipping_prices_data(country_code = nil)
-    shipping_config ||= YAML.load(IO.read(File.expand_path('../shipping_prices.yml', __FILE__)), symbolize_names: true)
+    shipping_config ||= YAML.load(IO.read(File.expand_path('../aisler_pricing/shipping_prices.yml', __FILE__)), symbolize_names: true)
 
     if country_code
       country_code = country_code.downcase.to_sym
@@ -96,13 +96,25 @@ module AislerPricing
     return Money.new(0, currency) unless bom_price_cents.positive?
 
     base_fee_cents = 300
-    service_charge = 1.15
+    service_charge = 1.20
 
     total = 0
     total += (bom_price_cents * service_charge).round
     total += base_fee_cents
 
     Money.new(total).exchange_to(currency)
+  end
+  
+  def self.assembly_price(args, currency = DEFAULT_CURRENCY)
+    args[:bom_part_variance]  ||= 0
+    args[:bom_part_total] ||= 0
+    
+    area = args[:area] ? args[:area] : (args[:width] * args[:height])
+    setup_fee = Money.new(7500) + (Money.new(450) * args[:bom_part_variance])
+    handling_fee = (area / 100) * args[:quantity] * Money.new(1)
+    placement_fee = args[:quantity] * args[:bom_part_total] * Money.new(5)
+    
+    setup_fee + handling_fee + placement_fee
   end
 
   def self.price(product_uid, args = {})
@@ -112,9 +124,17 @@ module AislerPricing
     when 102
       precious_parts_price(args, currency)
     when 103
-      stencil_price(args.slice(:area, :smd_pad_count_top, :smd_pad_count_bottom), currency)
+      stencil_price(args, currency)
+    when 104
+      prices = [
+        board_price(args, currency),
+        precious_parts_price(args, currency),
+        stencil_price(args, currency),
+        assembly_price(args, currency)
+      ]
+      prices.any?(&:zero?) ? Money.new(0) : prices.sum
     when (105..154)
-      board_price(args.slice(:area, :quantity).merge(product_uid: product_uid), currency)
+      board_price(args.merge(product_uid: product_uid), currency)
     when 202
       Money.new(0)
     when 203

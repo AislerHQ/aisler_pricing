@@ -1,3 +1,3 @@
 module AislerPricing
-  VERSION = "1.0.3"
+  VERSION = "1.1.6"
 end
