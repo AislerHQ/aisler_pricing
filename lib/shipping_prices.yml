@@ -1,27 +1,35 @@
 ---
 tierA0: &tierA0
   express_net_price: 7.99
+  tier: A0
 
 tierA: &tierA
   express_net_price: 8.99
+  tier: A
 
 tierB: &tierB
   express_net_price: 10.99
+  tier: B
 
 tierC: &tierC
   express_net_price: 12.99
+  tier: C
 
 tierD: &tierD
   express_net_price: 19.99
+  tier: D
 
 tierE: &tierE
   express_net_price: 23.99
+  tier: E
 
 tierF: &tierF
   express_net_price: 32.99
+  tier: F
 
 tierNA: &tierNA
   express_net_price: 15.00
+  tier: 'N/A'
 
 # Actual mapping of countries to the price tiers
 de: *tierA0 # Germany
