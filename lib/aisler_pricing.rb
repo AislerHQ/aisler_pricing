@@ -11,7 +11,7 @@ module AislerPricing
   VAT_RATES = { de: 16 }.freeze
   Money.default_currency = Money::Currency.new(DEFAULT_CURRENCY)
   Money.default_bank = EuCentralBank.new
-  Money.default_bank.add_rate('EUR', 'USD', 1.15) # Fixed rate for our U.S. business
+  Money.default_bank.add_rate('EUR', 'USD', 1.25) # Fixed rate for our U.S. business
 
   def self.update_rates
     Money.default_bank.update_rates
@@ -104,16 +104,16 @@ module AislerPricing
 
     Money.new(total).exchange_to(currency)
   end
-  
+
   def self.assembly_price(args, currency = DEFAULT_CURRENCY)
     args[:bom_part_variance]  ||= 0
     args[:bom_part_total] ||= 0
-    
+
     area = args[:area] ? args[:area] : (args[:width] * args[:height])
     setup_fee = Money.new(7500) + (Money.new(450) * args[:bom_part_variance])
     handling_fee = (area / 100) * args[:quantity] * Money.new(1)
     placement_fee = args[:quantity] * args[:bom_part_total] * Money.new(5)
-    
+
     setup_fee + handling_fee + placement_fee
   end
 
