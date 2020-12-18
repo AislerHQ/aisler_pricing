@@ -7,8 +7,8 @@ require 'aisler_pricing/version'
 
 module AislerPricing
   DEFAULT_CURRENCY = 'EUR'.freeze
-  VAT_MULTIPLIERS = { de: 1.16 }.freeze
-  VAT_RATES = { de: 16 }.freeze
+  VAT_MULTIPLIERS = { de: 1.19 }.freeze
+  VAT_RATES = { de: 19 }.freeze
   Money.default_currency = Money::Currency.new(DEFAULT_CURRENCY)
   Money.default_bank = EuCentralBank.new
   Money.default_bank.add_rate('EUR', 'USD', 1.25) # Fixed rate for our U.S. business
