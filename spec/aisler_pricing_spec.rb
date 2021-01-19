@@ -121,7 +121,7 @@ RSpec.describe AislerPricing do
     }
     expect(AislerPricing.price(102, args).cents).to eq(0)
   end
-  
+
   it 'should return assembly pricing' do
     args = {
       width: 80.0,
@@ -132,13 +132,13 @@ RSpec.describe AislerPricing do
       bom_part_variance: 13,
       bom_price_cents: 1000
     }
-    
+
     expect(AislerPricing.assembly_price(args).cents).to eq(19368)
     expect(AislerPricing.price(104, args).cents).to eq(34812)
   end
-  
-  
-  it 'should return 0 if parts are not assigned for AA pricing' do
+
+
+  it 'should not return 0 if parts are not assigned for AA pricing' do
     args = {
       width: 80.0,
       height: 57.0,
@@ -148,8 +148,8 @@ RSpec.describe AislerPricing do
       bom_part_variance: 13,
       bom_price_cents: 0
     }
-    
-    expect(AislerPricing.price(104, args).cents).to eq(0)
+
+    expect(AislerPricing.price(104, args).cents).to eq(33312)
   end
 
   context 'regarding shipping prices' do

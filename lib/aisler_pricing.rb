@@ -132,7 +132,7 @@ module AislerPricing
         stencil_price(args, currency),
         assembly_price(args, currency)
       ]
-      prices.any?(&:zero?) ? Money.new(0) : prices.sum
+      prices.sum
     when (105..154)
       board_price(args.merge(product_uid: product_uid), currency)
     when 202
