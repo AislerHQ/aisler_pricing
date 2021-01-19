@@ -19,5 +19,5 @@ deploy_job:
   stage: deploy
   script:
     - bundle exec rake build
-    - bundle exec gem inabox -g https://aisler:$GEM_SERVER_PASSWORD@gems.aisler.team
+    - bundle exec gem inabox -g https://gems.aisler.team
 
