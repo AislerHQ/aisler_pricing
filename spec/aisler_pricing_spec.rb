@@ -115,11 +115,11 @@ RSpec.describe AislerPricing do
     expect(result.currency).to eq(args[:currency])
   end
 
-  it 'should return zero value for Precious Parts if no parts are included' do
+  it 'should not return zero value for Precious Parts if no parts are included' do
     args = {
       bom_price_cents: 0
     }
-    expect(AislerPricing.price(102, args).cents).to eq(0)
+    expect(AislerPricing.price(102, args).cents).to eq(300)
   end
 
   it 'should return assembly pricing' do
@@ -149,7 +149,7 @@ RSpec.describe AislerPricing do
       bom_price_cents: 0
     }
 
-    expect(AislerPricing.price(104, args).cents).to eq(33312)
+    expect(AislerPricing.price(104, args).cents).to eq(33612)
   end
 
   context 'regarding shipping prices' do
