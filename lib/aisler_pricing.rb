@@ -84,6 +84,13 @@ module AislerPricing
     Money.new(0).exchange_to(currency)
   end
 
+  def self.tracked_shipping(args = {}, currency = DEFAULT_CURRENCY)
+    country_code = args[:country_code]
+    net_price = self.shipping_prices_data(country_code)[:tracked_net_price] * 100
+
+    Money.new(net_price).exchange_to(currency)
+  end
+
   def self.express_shipping(args = {}, currency = DEFAULT_CURRENCY)
     country_code = args[:country_code]
     net_price = self.shipping_prices_data(country_code)[:express_net_price] * 100
@@ -145,6 +152,8 @@ module AislerPricing
     when 72
       Money.new(168)
     when 99
+      tracked_shipping(args, currency)
+    when 98
       express_shipping(args, currency)
     when 84
       registration_frame_price(currency)
