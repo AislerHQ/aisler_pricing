@@ -152,9 +152,9 @@ module AislerPricing
     when 72
       Money.new(168)
     when 99
-      tracked_shipping(args, currency)
-    when 98
       express_shipping(args, currency)
+    when 98
+      tracked_shipping(args, currency)
     when 84
       registration_frame_price(currency)
     end
