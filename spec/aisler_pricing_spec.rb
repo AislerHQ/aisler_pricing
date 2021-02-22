@@ -170,7 +170,7 @@ RSpec.describe AislerPricing do
 
       expect(AislerPricing).to receive(:tracked_shipping).with(args, 'EUR')
 
-      AislerPricing.price(99, args)
+      AislerPricing.price(98, args)
     end
 
     it '.price calls the express_shipping method with the correct parameters' do
@@ -180,7 +180,7 @@ RSpec.describe AislerPricing do
 
       expect(AislerPricing).to receive(:express_shipping).with(args, 'EUR')
 
-      AislerPricing.price(98, args)
+      AislerPricing.price(99, args)
     end
 
     context 'for Tier AA (Domestic Germany)' do
