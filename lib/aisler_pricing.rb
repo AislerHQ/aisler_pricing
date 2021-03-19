@@ -41,11 +41,15 @@ module AislerPricing
 
     base = case args[:product_uid]
     when 105
-      10.20
+      12.00
     when 106
       10.20
     when 107
       12.30
+    when 108
+      12.30
+    when 109
+      6.0
     end
     price_per_cm2 = case args[:product_uid]
     when 105
@@ -54,6 +58,10 @@ module AislerPricing
       0.084
     when 107
       0.185
+    when 108
+      0.185
+    when 109
+      0.042
     end
 
     total = area * args[:quantity] * price_per_cm2
@@ -133,7 +141,7 @@ module AislerPricing
         assembly_price(args, currency)
       ]
       prices.any?(&:zero?) ? Money.new(0) : prices.sum
-    when (105..154)
+    when (105..155)
       board_price(args.merge(product_uid: product_uid), currency)
     when 202
       Money.new(0)

@@ -8,7 +8,7 @@ RSpec.describe AislerPricing do
   it "should receive 2 layer PCB price in euros" do
     price = AislerPricing.board_price(area: 1, quantity: 3, product_uid: 105)
     expect(price).to be_an_instance_of Money
-    expect(price.cents).to eq(1020) # Lowest price point
+    expect(price.cents).to eq(1200) # Lowest price point
   end
 
   it "should receive 4 layer PCB price in euros" do
@@ -70,7 +70,7 @@ RSpec.describe AislerPricing do
   end
 
   it 'should support hash, array and area as input values for board price' do
-    price_cents = 3540
+    price_cents = 3720
     expect(AislerPricing.board_price(area: 10000, quantity: 3, product_uid: 105).cents).to eq(price_cents)
     expect(AislerPricing.board_price(area: 10000, quantity: 3, product_uid: 105).cents).to eq(price_cents)
     expect(AislerPricing.board_price( { width: 100, height: 100, quantity: 3, product_uid: 105} ).cents).to eq(price_cents)
@@ -84,18 +84,21 @@ RSpec.describe AislerPricing do
   end
 
   it 'should return prices for AISLER product codes' do
-    expect(AislerPricing.price(105, area: 1, quantity: 3).cents).to eq(1020)
+    expect(AislerPricing.price(105, area: 1, quantity: 3).cents).to eq(1200)
     expect(AislerPricing.price(103, area: 1600, smd_pad_count_top: 10, smd_pad_count_bottom: 0).cents).to eq(1152)
   end
 
   it 'output prices for uC net listing' do
     [
       { width: 160, height: 100, quantity: 3, product_uid: 105 },
+      { width: 100, height: 80, quantity: 3, product_uid: 105 },
+      { width: 160, height: 100, quantity: 3, product_uid: 109 },
+      { width: 100, height: 80, quantity: 3, product_uid: 109 },
       { width: 20, height: 20, quantity: 3, product_uid: 107 },
       { width: 60, height: 50, quantity: 3, product_uid: 107 },
       { width: 160, height: 100, quantity: 3, product_uid: 107 },
-      { width: 20, height: 20, quantity: 100, product_uid: 106 },
-    ].each { |args| puts (AislerPricing.board_price(args) * 1.19).format }
+      { width: 160, height: 100, quantity: 12, product_uid: 109 },
+    ].each { |args| puts args.to_s + ' / ' + (AislerPricing.board_price(args) * 1.19).format }
   end
 
   it 'should return prices for Precious Parts in EUR' do
@@ -127,14 +130,14 @@ RSpec.describe AislerPricing do
       width: 80.0,
       height: 57.0,
       quantity: 30,
-      product_uid: 105,
+      product_uid: 109,
       bom_part_total: 31,
       bom_part_variance: 13,
       bom_price_cents: 1000
     }
     
     expect(AislerPricing.assembly_price(args).cents).to eq(19368)
-    expect(AislerPricing.price(104, args).cents).to eq(34812)
+    expect(AislerPricing.price(104, args).cents).to eq(28647)
   end
   
   
