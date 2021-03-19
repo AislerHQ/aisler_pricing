@@ -146,13 +146,13 @@ RSpec.describe AislerPricing do
       width: 80.0,
       height: 57.0,
       quantity: 30,
-      product_uid: 105,
+      product_uid: 109,
       bom_part_total: 31,
       bom_part_variance: 13,
       bom_price_cents: 0
     }
 
-    expect(AislerPricing.price(104, args).cents).to eq(33612)
+    expect(AislerPricing.price(104, args).cents).to eq(27447)
   end
 
   context 'regarding shipping prices' do
