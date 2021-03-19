@@ -92,6 +92,13 @@ module AislerPricing
     Money.new(0).exchange_to(currency)
   end
 
+  def self.tracked_shipping(args = {}, currency = DEFAULT_CURRENCY)
+    country_code = args[:country_code]
+    net_price = self.shipping_prices_data(country_code)[:tracked_net_price] * 100
+
+    Money.new(net_price).exchange_to(currency)
+  end
+
   def self.express_shipping(args = {}, currency = DEFAULT_CURRENCY)
     country_code = args[:country_code]
     net_price = self.shipping_prices_data(country_code)[:express_net_price] * 100
@@ -101,7 +108,6 @@ module AislerPricing
 
   def self.precious_parts_price(args = {}, currency = DEFAULT_CURRENCY)
     bom_price_cents = args[:bom_price_cents] || 0
-    return Money.new(0, currency) unless bom_price_cents.positive?
 
     base_fee_cents = 300
     service_charge = 1.20
@@ -140,7 +146,7 @@ module AislerPricing
         stencil_price(args, currency),
         assembly_price(args, currency)
       ]
-      prices.any?(&:zero?) ? Money.new(0) : prices.sum
+      prices.sum
     when (105..155)
       board_price(args.merge(product_uid: product_uid), currency)
     when 202
@@ -155,6 +161,8 @@ module AislerPricing
       Money.new(168)
     when 99
       express_shipping(args, currency)
+    when 98
+      tracked_shipping(args, currency)
     when 84
       registration_frame_price(currency)
     end

@@ -1,27 +1,35 @@
 ---
 tierA0: &tierA0
-  express_net_price: 7.99
-
-tierA: &tierA
-  express_net_price: 8.99
-
-tierB: &tierB
+  tracked_net_price: 7.99
   express_net_price: 10.99
 
-tierC: &tierC
+tierA: &tierA
+  tracked_net_price: 8.99
   express_net_price: 12.99
 
+tierB: &tierB
+  tracked_net_price: 10.99
+  express_net_price: 24.99
+
+tierC: &tierC
+  tracked_net_price: 12.99
+  express_net_price: 26.99
+
 tierD: &tierD
-  express_net_price: 19.99
+  tracked_net_price: 19.99
+  express_net_price: 30.99
 
 tierE: &tierE
-  express_net_price: 23.99
+  tracked_net_price: 23.99
+  express_net_price: 35.99
 
 tierF: &tierF
-  express_net_price: 32.99
+  tracked_net_price: 32.99
+  express_net_price: 40.99
 
 tierNA: &tierNA
-  express_net_price: 15.00
+  tracked_net_price: 15.00
+  express_net_price: 20.00
 
 # Actual mapping of countries to the price tiers
 de: *tierA0 # Germany

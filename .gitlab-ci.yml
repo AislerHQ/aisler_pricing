@@ -1,23 +1,30 @@
 before_script:
-  - ruby -v
-  - which ruby
-  - bundle install --jobs $(nproc)  "${FLAGS[@]}" --path ~/gems/aisler_pricing
+  - bundle install --jobs $(nproc) --path .gems "${FLAGS[@]}"
+
+cache:
+    key: default-cache
+    paths:
+      - .gems
 
 stages:
   - test
   - deploy
 
-
 rspec_job:
+  image: ruby:2.5.1
+  tags:
+    - docker
   stage: test
   script:
     - bundle exec rspec
-
+    
 deploy_job:
+  image: ruby:2.5.1
+  tags:
+    - docker
+  stage: deploy
   only:
     - master
-  stage: deploy
   script:
     - bundle exec rake build
-    - bundle exec gem inabox -g https://aisler:$GEM_SERVER_PASSWORD@gems.aisler.team
-
+    - bundle exec gem inabox -g https://${BUNDLE_GEMS__AISLER__TEAM}@gems.aisler.team
