@@ -122,39 +122,30 @@ module AislerPricing
   def self.assembly_price(args, currency = DEFAULT_CURRENCY)
     w = args[:project_width]
     h = args[:project_height]
-    q = args[:project_quantity]
+    q = args[:quantity]
     args[:bom_part_variance] ||= 0
     args[:bom_part_total] ||= 0
 
-    if q
-      dim_mm = (w * h)
-      area = dim_mm / 100
+    return Money.new(0) unless q
+    dim_mm = (w * h)
+    area = dim_mm / 100
 
-      setup_fee = 75.00 + 4.50 * args[:bom_part_variance]
-      handling_fee = (area * q * 0.01)
-      placement_fee = q * [:bom_part_total] * 0.05
-      factor = args[:project_double_sided] ? 2 : 1
-      smd_cost = factor * (setup_fee + handling_fee + placement_fee)
+    setup_fee = Money.new(7500 + 450 * args[:bom_part_variance])
+    handling_fee = Money.new(area * q)
+    placement_fee = Money.new(q * [:bom_part_total] * 5 )
+    factor = args[:project_double_sided] ? 2 : 1
+    smd_cost = factor * (setup_fee + handling_fee + placement_fee)
 
-      thru_holes = args[:thru_holes]
-      total_thru_holes_to_assemble = thru_holes * q
-      time_per_hour_to_assemble_thru_hole = (7 / (60 * 60))
-      tht_fee = if total_thru_holes_to_assemble > 0
-        (30.00 + time_per_hour_to_assemble_thru_hole * total_thru_holes_to_assemble * 40.00)
-      else
-        0
-      end
-
-      smd_cost + tht_fee
-
+    thru_holes = args[:thru_holes]
+    total_thru_holes_to_assemble = thru_holes * q
+    time_per_hour_to_assemble_thru_hole = (7 / (60 * 60))
+    tht_fee = if total_thru_holes_to_assemble > 0
+      Money.new(3000 + time_per_hour_to_assemble_thru_hole * total_thru_holes_to_assemble * 4000)
+    else
+      Money.new(0)
     end
 
-    area = args[:area] ? args[:area] : (args[:width] * args[:height])
-    setup_fee = Money.new(7500) + (Money.new(450) * args[:bom_part_variance])
-    handling_fee = (area / 100) * args[:quantity] * Money.new(1)
-    placement_fee = args[:quantity] * args[:bom_part_total] * Money.new(5)
-
-    setup_fee + handling_fee + placement_fee
+    smd_cost + tht_fee
   end
 
   def self.price(product_uid, args = {})
