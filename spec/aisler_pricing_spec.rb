@@ -125,7 +125,7 @@ RSpec.describe AislerPricing do
     expect(AislerPricing.price(102, args).cents).to eq(300)
   end
 
-  it 'should return assembly pricing' do
+  it 'should return single sided assembly pricing' do
     args = {
       width: 80.0,
       height: 57.0,
@@ -133,10 +133,45 @@ RSpec.describe AislerPricing do
       product_uid: 109,
       bom_part_total: 31,
       bom_part_variance: 13,
-      bom_price_cents: 1000
+      bom_price_cents: 1000,
+      thru_holes: 8,
+      project_double_sided: false
     }
 
     expect(AislerPricing.assembly_price(args).cents).to eq(19368)
+    expect(AislerPricing.price(104, args).cents).to eq(28647)
+  end
+
+  it 'should return double sided assembly pricing' do
+    args = {
+      width: 80.0,
+      height: 57.0,
+      quantity: 30,
+      product_uid: 109,
+      bom_part_total: 31,
+      bom_part_variance: 13,
+      bom_price_cents: 1000,
+      thru_holes: 8,
+      project_double_sided: true
+    }
+
+    expect(AislerPricing.assembly_price(args).cents).to eq(19368)
+    expect(AislerPricing.price(104, args).cents).to eq(28647)
+  end
+
+  it 'should return assembly prices without through holes' do
+    args = {
+      width: 80.0,
+      height: 57.0,
+      quantity: 30,
+      product_uid: 109,
+      bom_part_total: 31,
+      bom_part_variance: 13,
+      bom_price_cents: 1000,
+      thru_holes: 0,
+      project_double_sided: true
+    }
+
     expect(AislerPricing.price(104, args).cents).to eq(28647)
   end
 
@@ -149,7 +184,8 @@ RSpec.describe AislerPricing do
       product_uid: 109,
       bom_part_total: 31,
       bom_part_variance: 13,
-      bom_price_cents: 0
+      bom_price_cents: 0,
+      thru_holes: 8
     }
 
     expect(AislerPricing.price(104, args).cents).to eq(27447)
