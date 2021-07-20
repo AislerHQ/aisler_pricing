@@ -131,11 +131,11 @@ RSpec.describe AislerPricing do
       height: 57.0,
       quantity: 30,
       product_uid: 109,
-      bom_part_total: 31,
-      bom_part_variance: 13,
+      part_total: 31,
+      part_variance: 13,
       bom_price_cents: 1000,
-      thru_holes: 8,
-      project_double_sided: false
+      part_tht: 8,
+      double_sided: false
     }
 
     expect(AislerPricing.assembly_price(args).cents).to eq(24235)
@@ -148,11 +148,11 @@ RSpec.describe AislerPricing do
       height: 57.0,
       quantity: 30,
       product_uid: 109,
-      bom_part_total: 31,
-      bom_part_variance: 13,
+      part_total: 31,
+      part_variance: 13,
       bom_price_cents: 1000,
-      thru_holes: 8,
-      project_double_sided: true
+      part_tht: 8,
+      double_sided: true
     }
 
     expect(AislerPricing.assembly_price(args).cents).to eq(43603)
@@ -165,11 +165,11 @@ RSpec.describe AislerPricing do
       height: 57.0,
       quantity: 30,
       product_uid: 109,
-      bom_part_total: 31,
-      bom_part_variance: 13,
+      part_total: 31,
+      part_variance: 13,
       bom_price_cents: 1000,
-      thru_holes: 0,
-      project_double_sided: true
+      part_tht: 0,
+      double_sided: true
     }
 
     expect(AislerPricing.assembly_price(args).cents).to eq(38736)
@@ -183,10 +183,10 @@ RSpec.describe AislerPricing do
       height: 57.0,
       quantity: 30,
       product_uid: 109,
-      bom_part_total: 31,
-      bom_part_variance: 13,
+      part_total: 31,
+      part_variance: 13,
       bom_price_cents: 0,
-      thru_holes: 8
+      part_tht: 8
     }
     expect(AislerPricing.price(104, args).cents).to eq(32314)
   end
