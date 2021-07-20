@@ -120,16 +120,13 @@ module AislerPricing
   end
 
   def self.assembly_price(args, currency = DEFAULT_CURRENCY)
-    w = args[:width]
-    h = args[:height]
     q = args[:quantity]
     args[:bom_part_variance] ||= 0
     args[:bom_part_total] ||= 0
 
     return Money.new(0) unless q
-
-    dim_mm = (w * h)
-    area = dim_mm / 100
+    area = args[:area] ? args[:area] : (args[:width] * args[:height])
+    area /= 100
 
     setup_fee = Money.new(7500 + 450 * args[:bom_part_variance])
     handling_fee = Money.new(area * q)
@@ -139,13 +136,12 @@ module AislerPricing
 
     thru_holes = args[:thru_holes]
     total_thru_holes_to_assemble = thru_holes * q
-    time_per_hour_to_assemble_thru_hole = (7 / (60 * 60))
+    time_per_hour_to_assemble_thru_hole = (7.0 / (60.0 * 60.0))
     tht_fee = if total_thru_holes_to_assemble > 0
       Money.new(3000 + time_per_hour_to_assemble_thru_hole * total_thru_holes_to_assemble * 4000)
     else
       Money.new(0)
     end
-
     smd_cost + tht_fee
   end
 

@@ -138,8 +138,8 @@ RSpec.describe AislerPricing do
       project_double_sided: false
     }
 
-    expect(AislerPricing.assembly_price(args).cents).to eq(19368)
-    expect(AislerPricing.price(104, args).cents).to eq(28647)
+    expect(AislerPricing.assembly_price(args).cents).to eq(24235)
+    expect(AislerPricing.price(104, args).cents).to eq(33514)
   end
 
   it 'should return double sided assembly pricing' do
@@ -155,8 +155,8 @@ RSpec.describe AislerPricing do
       project_double_sided: true
     }
 
-    expect(AislerPricing.assembly_price(args).cents).to eq(19368)
-    expect(AislerPricing.price(104, args).cents).to eq(28647)
+    expect(AislerPricing.assembly_price(args).cents).to eq(43603)
+    expect(AislerPricing.price(104, args).cents).to eq(52882)
   end
 
   it 'should return assembly prices without through holes' do
@@ -172,7 +172,8 @@ RSpec.describe AislerPricing do
       project_double_sided: true
     }
 
-    expect(AislerPricing.price(104, args).cents).to eq(28647)
+    expect(AislerPricing.assembly_price(args).cents).to eq(38736)
+    expect(AislerPricing.price(104, args).cents).to eq(48015)
   end
 
 
@@ -187,8 +188,7 @@ RSpec.describe AislerPricing do
       bom_price_cents: 0,
       thru_holes: 8
     }
-
-    expect(AislerPricing.price(104, args).cents).to eq(27447)
+    expect(AislerPricing.price(104, args).cents).to eq(32314)
   end
 
   context 'regarding shipping prices' do
