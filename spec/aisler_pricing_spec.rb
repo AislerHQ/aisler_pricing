@@ -125,19 +125,55 @@ RSpec.describe AislerPricing do
     expect(AislerPricing.price(102, args).cents).to eq(300)
   end
 
-  it 'should return assembly pricing' do
+  it 'should return single sided assembly pricing' do
     args = {
       width: 80.0,
       height: 57.0,
       quantity: 30,
       product_uid: 109,
-      bom_part_total: 31,
-      bom_part_variance: 13,
-      bom_price_cents: 1000
+      part_total: 31,
+      part_variance: 13,
+      bom_price_cents: 1000,
+      part_tht: 8,
+      double_sided: false
     }
 
-    expect(AislerPricing.assembly_price(args).cents).to eq(19368)
-    expect(AislerPricing.price(104, args).cents).to eq(28647)
+    expect(AislerPricing.assembly_price(args).cents).to eq(24235)
+    expect(AislerPricing.price(104, args).cents).to eq(33514)
+  end
+
+  it 'should return double sided assembly pricing' do
+    args = {
+      width: 80.0,
+      height: 57.0,
+      quantity: 30,
+      product_uid: 109,
+      part_total: 31,
+      part_variance: 13,
+      bom_price_cents: 1000,
+      part_tht: 8,
+      double_sided: true
+    }
+
+    expect(AislerPricing.assembly_price(args).cents).to eq(43603)
+    expect(AislerPricing.price(104, args).cents).to eq(52882)
+  end
+
+  it 'should return assembly prices without through holes' do
+    args = {
+      width: 80.0,
+      height: 57.0,
+      quantity: 30,
+      product_uid: 109,
+      part_total: 31,
+      part_variance: 13,
+      bom_price_cents: 1000,
+      part_tht: 0,
+      double_sided: true
+    }
+
+    expect(AislerPricing.assembly_price(args).cents).to eq(38736)
+    expect(AislerPricing.price(104, args).cents).to eq(48015)
   end
 
 
@@ -147,12 +183,12 @@ RSpec.describe AislerPricing do
       height: 57.0,
       quantity: 30,
       product_uid: 109,
-      bom_part_total: 31,
-      bom_part_variance: 13,
-      bom_price_cents: 0
+      part_total: 31,
+      part_variance: 13,
+      bom_price_cents: 0,
+      part_tht: 8
     }
-
-    expect(AislerPricing.price(104, args).cents).to eq(27447)
+    expect(AislerPricing.price(104, args).cents).to eq(32314)
   end
 
   context 'regarding shipping prices' do
