@@ -109,7 +109,7 @@ module AislerPricing
   def self.precious_parts_price(args = {}, currency = DEFAULT_CURRENCY)
     bom_price_cents = args[:bom_price_cents] || 0
 
-    base_fee_cents = 300
+    base_fee_cents = 3_00
     service_charge = 1.20
 
     total = 0
@@ -120,29 +120,31 @@ module AislerPricing
   end
 
   def self.assembly_price(args, currency = DEFAULT_CURRENCY)
-    q = args[:quantity]
+    qty = args[:quantity]
     args[:part_variance] ||= 0
     args[:part_total] ||= 0
 
-    return Money.new(0) unless q
+    return Money.new(0) unless qty
+
     area = args[:area] ? args[:area] : (args[:width] * args[:height])
     area /= 100
 
-    setup_fee = Money.new(7500 + 450 * args[:part_variance])
-    handling_fee = Money.new(area * q)
-    placement_fee = Money.new(q * args[:part_total] * 5)
+    setup_fee = Money.new(75_00 + 4_50 * args[:part_variance])
+    handling_fee = Money.new(area * qty)
+    placement_fee = Money.new(qty * args[:part_total] * 5)
     factor = args[:double_sided] ? 2 : 1
     smd_cost = factor * (setup_fee + handling_fee + placement_fee)
 
-    thru_holes = args[:part_tht] || 0
-    total_thru_holes_to_assemble = thru_holes * q
+    tht_parts = args[:part_tht] || 0
+    total_tht_parts = tht_parts * qty
     time_per_hour_to_assemble_thru_hole = (7.0 / (60.0 * 60.0))
-    tht_fee = if total_thru_holes_to_assemble > 0
-      Money.new(3000 + time_per_hour_to_assemble_thru_hole * total_thru_holes_to_assemble * 4000)
+    tht_cost = if total_tht_parts > 0
+      Money.new(30_00 + time_per_hour_to_assemble_thru_hole * total_tht_parts * 40_00)
     else
       Money.new(0)
     end
-    smd_cost + tht_fee
+
+    (smd_cost + tht_cost).exchange_to(currency)
   end
 
   def self.price(product_uid, args = {})
