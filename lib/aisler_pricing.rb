@@ -121,9 +121,8 @@ module AislerPricing
 
   def self.assembly_price(args, currency = DEFAULT_CURRENCY)
     qty = args[:quantity]
-    args[:part_variance] ||= 0
-    args[:part_smt] ||= 0
-    args[:part_tht] ||= 0
+    smt_count = args[:part_smt]
+    tht_count = args[:part_tht]
 
     return Money.new(0).exchange_to(currency) unless qty
 
@@ -133,11 +132,11 @@ module AislerPricing
     factor = args[:double_sided] ? 2 : 1
     job_fee = 99_00 + 4_50 * args[:part_variance]
     handling_fee = area * qty
-    tht_setup_fee = args[:part_tht].positive? ? 40_00 : 0
+    tht_setup_fee = tht_count.positive? ? 40_00 : 0
     setup_fee = factor * (job_fee + handling_fee) + tht_setup_fee
 
-    smt_placement_fee = qty * args[:part_smt] * 8
-    tht_placement_fee = qty * args[:part_tht] * 50
+    smt_placement_fee = qty * smt_count * 8
+    tht_placement_fee = qty * tht_count * 50
 
     Money.new(setup_fee + smt_placement_fee + tht_placement_fee).exchange_to(currency)
   end
