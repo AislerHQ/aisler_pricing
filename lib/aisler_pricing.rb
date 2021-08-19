@@ -133,7 +133,7 @@ module AislerPricing
     factor = args[:double_sided] ? 2 : 1
     job_fee = Money.new(99_00 + 4_50 * args[:part_variance])
     handling_fee = Money.new(area * qty)
-    tht_setup_fee = args[:part_tht] > 0 ? 40_00 : 0
+    tht_setup_fee = args[:part_tht].positive? ? 40_00 : 0
     setup_fee = factor * (job_fee + handling_fee) + tht_setup_fee
 
     smt_placement_fee = Money.new(qty * args[:part_smt] * 8)
