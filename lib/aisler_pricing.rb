@@ -125,21 +125,21 @@ module AislerPricing
     args[:part_smt] ||= 0
     args[:part_tht] ||= 0
 
-    return Money.new(0) unless qty
+    return Money.new(0).exchange_to(currency) unless qty
 
     area = args[:area] ? args[:area] : (args[:width] * args[:height])
     area /= 100
 
     factor = args[:double_sided] ? 2 : 1
-    job_fee = Money.new(99_00 + 4_50 * args[:part_variance])
-    handling_fee = Money.new(area * qty)
+    job_fee = 99_00 + 4_50 * args[:part_variance]
+    handling_fee = area * qty
     tht_setup_fee = args[:part_tht].positive? ? 40_00 : 0
     setup_fee = factor * (job_fee + handling_fee) + tht_setup_fee
 
-    smt_placement_fee = Money.new(qty * args[:part_smt] * 8)
-    tht_placement_fee = Money.new(qty * args[:part_tht] * 50)
+    smt_placement_fee = qty * args[:part_smt] * 8
+    tht_placement_fee = qty * args[:part_tht] * 50
 
-    (setup_fee + smt_placement_fee + tht_placement_fee).exchange_to(currency)
+    Money.new(setup_fee + smt_placement_fee + tht_placement_fee).exchange_to(currency)
   end
 
   def self.price(product_uid, args = {})
