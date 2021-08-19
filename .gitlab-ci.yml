@@ -16,8 +16,8 @@ rspec_job:
     - docker
   stage: test
   script:
-    - bundle exec rspec
-    
+    - bin/rspec
+
 deploy_job:
   image: ruby:2.5.1
   tags:
@@ -26,5 +26,5 @@ deploy_job:
   only:
     - master
   script:
-    - bundle exec rake build
+    - bin/rake build
     - bundle exec gem inabox -g https://${BUNDLE_GEMS__AISLER__TEAM}@gems.aisler.team
