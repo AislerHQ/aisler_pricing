@@ -134,8 +134,8 @@ RSpec.describe AislerPricing do
         product_uid: 109,
         part_variance: 13,
         bom_price_cents: 1000,
-        part_smt: 23,
-        part_tht: 8,
+        part_smt_count: 23,
+        part_tht_count: 8,
         double_sided: false
       }
 
@@ -151,8 +151,8 @@ RSpec.describe AislerPricing do
         product_uid: 109,
         part_variance: 13,
         bom_price_cents: 1000,
-        part_smt: 23,
-        part_tht: 8,
+        part_smt_count: 23,
+        part_tht_count: 8,
         double_sided: true
       }
 
@@ -168,8 +168,8 @@ RSpec.describe AislerPricing do
         product_uid: 109,
         part_variance: 13,
         bom_price_cents: 1000,
-        part_smt: 23,
-        part_tht: 0,
+        part_smt_count: 23,
+        part_tht_count: 0,
         double_sided: true
       }
 
@@ -185,8 +185,8 @@ RSpec.describe AislerPricing do
         product_uid: 109,
         part_variance: 13,
         bom_price_cents: 1000,
-        part_smt: 0,
-        part_tht: 23,
+        part_smt_count: 0,
+        part_tht_count: 23,
         double_sided: true
       }
 
@@ -202,8 +202,8 @@ RSpec.describe AislerPricing do
         product_uid: 109,
         part_variance: 13,
         bom_price_cents: 1000,
-        part_smt: 23,
-        part_tht: 8,
+        part_smt_count: 23,
+        part_tht_count: 8,
         double_sided: true
       }
 
@@ -218,8 +218,8 @@ RSpec.describe AislerPricing do
         product_uid: 109,
         part_variance: 13,
         bom_price_cents: 0,
-        part_smt: 23,
-        part_tht: 8,
+        part_smt_count: 23,
+        part_tht_count: 8,
         double_sided: false
       }
 

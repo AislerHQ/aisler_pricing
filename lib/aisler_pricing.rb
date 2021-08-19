@@ -121,8 +121,8 @@ module AislerPricing
 
   def self.assembly_price(args, currency = DEFAULT_CURRENCY)
     qty = args[:quantity]
-    smt_count = args[:part_smt]
-    tht_count = args[:part_tht]
+    smt_count = args[:part_smt_count]
+    tht_count = args[:part_tht_count]
 
     return Money.new(0).exchange_to(currency) unless qty
 
