@@ -125,70 +125,106 @@ RSpec.describe AislerPricing do
     expect(AislerPricing.price(102, args).cents).to eq(300)
   end
 
-  it 'should return single sided assembly pricing' do
-    args = {
-      width: 80.0,
-      height: 57.0,
-      quantity: 30,
-      product_uid: 109,
-      part_total: 31,
-      part_variance: 13,
-      bom_price_cents: 1000,
-      part_tht: 8,
-      double_sided: false
-    }
+  context 'should return assembly price' do
+    it 'for single side' do
+      args = {
+        width: 80.0,
+        height: 57.0,
+        quantity: 30,
+        product_uid: 109,
+        part_variance: 13,
+        bom_price_cents: 1000,
+        part_smt: 23,
+        part_tht: 8,
+        double_sided: false
+      }
 
-    expect(AislerPricing.assembly_price(args).cents).to eq(24235)
-    expect(AislerPricing.price(104, args).cents).to eq(33514)
-  end
+      expect(AislerPricing.assembly_price(args).cents).to eq(386_38)
+      expect(AislerPricing.price(104, args).cents).to eq(479_17)
+    end
 
-  it 'should return double sided assembly pricing' do
-    args = {
-      width: 80.0,
-      height: 57.0,
-      quantity: 30,
-      product_uid: 109,
-      part_total: 31,
-      part_variance: 13,
-      bom_price_cents: 1000,
-      part_tht: 8,
-      double_sided: true
-    }
+    it 'for double side' do
+      args = {
+        width: 80.0,
+        height: 57.0,
+        quantity: 30,
+        product_uid: 109,
+        part_variance: 13,
+        bom_price_cents: 1000,
+        part_smt: 23,
+        part_tht: 8,
+        double_sided: true
+      }
 
-    expect(AislerPricing.assembly_price(args).cents).to eq(43603)
-    expect(AislerPricing.price(104, args).cents).to eq(52882)
-  end
+      expect(AislerPricing.assembly_price(args).cents).to eq(557_56)
+      expect(AislerPricing.price(104, args).cents).to eq(650_35)
+    end
 
-  it 'should return assembly prices without through holes' do
-    args = {
-      width: 80.0,
-      height: 57.0,
-      quantity: 30,
-      product_uid: 109,
-      part_total: 31,
-      part_variance: 13,
-      bom_price_cents: 1000,
-      part_tht: 0,
-      double_sided: true
-    }
+    it 'without tht' do
+      args = {
+        width: 80.0,
+        height: 57.0,
+        quantity: 30,
+        product_uid: 109,
+        part_variance: 13,
+        bom_price_cents: 1000,
+        part_smt: 23,
+        part_tht: 0,
+        double_sided: true
+      }
 
-    expect(AislerPricing.assembly_price(args).cents).to eq(38736)
-    expect(AislerPricing.price(104, args).cents).to eq(48015)
-  end
+      expect(AislerPricing.assembly_price(args).cents).to eq(397_56)
+      expect(AislerPricing.price(104, args).cents).to eq(490_35)
+    end
 
+    it 'without smt' do
+      args = {
+        width: 80.0,
+        height: 57.0,
+        quantity: 30,
+        product_uid: 109,
+        part_variance: 13,
+        bom_price_cents: 1000,
+        part_smt: 0,
+        part_tht: 23,
+        double_sided: true
+      }
 
-  it 'should not return 0 if parts are not assigned for AA pricing' do
-    args = {
-      width: 80.0,
-      height: 57.0,
-      quantity: 30,
-      product_uid: 109,
-      part_total: 31,
-      part_variance: 13,
-      bom_price_cents: 0,
-      part_tht: 8
-    }
-    expect(AislerPricing.price(104, args).cents).to eq(32314)
+      expect(AislerPricing.assembly_price(args).cents).to eq(727_36)
+      expect(AislerPricing.price(104, args).cents).to eq(820_15)
+    end
+
+    it 'in different currency' do
+      args = {
+        width: 80.0,
+        height: 57.0,
+        quantity: 30,
+        product_uid: 109,
+        part_variance: 13,
+        bom_price_cents: 1000,
+        part_smt: 23,
+        part_tht: 8,
+        double_sided: true
+      }
+
+      expect(AislerPricing.assembly_price(args, 'USD').currency).to eq('USD')
+    end
+
+    it 'if parts are free' do
+      args = {
+        width: 80.0,
+        height: 57.0,
+        quantity: 30,
+        product_uid: 109,
+        part_variance: 13,
+        bom_price_cents: 0,
+        part_smt: 23,
+        part_tht: 8,
+        double_sided: false
+      }
+
+      expect(AislerPricing.price(104, args).cents).to eq(467_17)
+    end
   end
 
   context 'regarding shipping prices' do
