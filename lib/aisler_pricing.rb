@@ -43,11 +43,11 @@ module AislerPricing
     when 105
       12.00
     when 106
-      10.20
+      6.0
     when 107
-      12.30
+      6.0
     when 108
-      12.30
+      6.0
     when 109
       6.0
     end
@@ -57,9 +57,9 @@ module AislerPricing
     when 106
       0.084
     when 107
-      0.185
+      0.117
     when 108
-      0.185
+      0.117
     when 109
       0.042
     end
@@ -76,7 +76,7 @@ module AislerPricing
     area /= 100
     area *= factor
 
-    base = 10.0
+    base = 5.0
     price_per_cm2 = 0.095
 
     total = area * price_per_cm2
@@ -109,7 +109,7 @@ module AislerPricing
   def self.precious_parts_price(args = {}, currency = DEFAULT_CURRENCY)
     bom_price_cents = args[:bom_price_cents] || 0
 
-    base_fee_cents = 3_00
+    base_fee_cents = 0.0
     service_charge = 1.20
 
     total = 0

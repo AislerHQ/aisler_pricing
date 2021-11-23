@@ -16,45 +16,45 @@ RSpec.describe AislerPricing do
     expect(price).to be_an_instance_of Money
 
     price *= 1.19
-    expect(price.cents).to eq(1464)
+    expect(price.cents).to eq(714)
 
     price = AislerPricing.board_price(area: 2000, quantity: 3, product_uid: 107)
     expect(price).to be_an_instance_of Money
 
     price *= 1.19
-    expect(price.cents).to eq(2785)
+    expect(price.cents).to eq(1549)
 
     price = AislerPricing.board_price(area: 60000, quantity: 3, product_uid: 107)
     expect(price).to be_an_instance_of Money
 
     price *= 1.19
-    expect(price.cents).to eq(41091)
+    expect(price.cents).to eq(25775)
   end
 
   it 'should receive stencil price' do
     price = AislerPricing.stencil_price(width: 1, height: 1) # Really small stencil
     expect(price).to be_an_instance_of Money
-    expect(price.cents).to eq(1000) # Base price for stencils
+    expect(price.cents).to eq(500) # Base price for stencils
 
     price = AislerPricing.stencil_price(width: 110, height: 70, smd_pad_count_top: 10, smd_pad_count_bottom: 10)
     expect(price).to be_an_instance_of Money
-    expect(price.cents).to eq(2463)
+    expect(price.cents).to eq(1963)
 
     price = AislerPricing.stencil_price(width: 50, height: 60)
     expect(price).to be_an_instance_of Money
-    expect(price.cents).to eq(1285)
+    expect(price.cents).to eq(785)
 
     price = AislerPricing.stencil_price(width: 160, height: 100)
     expect(price).to be_an_instance_of Money
-    expect(price.cents).to eq(2520)
+    expect(price.cents).to eq(2020)
 
     price = AislerPricing.stencil_price(width: 200, height: 200)
     expect(price).to be_an_instance_of Money
-    expect(price.cents).to eq(4800)
+    expect(price.cents).to eq(4300)
 
     price = AislerPricing.stencil_price(width: 300, height: 300)
     expect(price).to be_an_instance_of Money
-    expect(price.cents).to eq(9550)
+    expect(price.cents).to eq(9050)
   end
 
   it 'should receive stencil price as US Dollars' do
@@ -85,7 +85,7 @@ RSpec.describe AislerPricing do
 
   it 'should return prices for AISLER product codes' do
     expect(AislerPricing.price(105, area: 1, quantity: 3).cents).to eq(1200)
-    expect(AislerPricing.price(103, area: 1600, smd_pad_count_top: 10, smd_pad_count_bottom: 0).cents).to eq(1152)
+    expect(AislerPricing.price(103, area: 1600, smd_pad_count_top: 10, smd_pad_count_bottom: 0).cents).to eq(652)
   end
 
   it 'output prices for uC net listing' do
@@ -105,7 +105,7 @@ RSpec.describe AislerPricing do
     args = {
       bom_price_cents: 1337
     }
-    expect(AislerPricing.price(102, args).cents).to eq(1904)
+    expect(AislerPricing.price(102, args).cents).to eq(1604)
   end
 
   it 'should return prices for Precious Parts in other currency' do
@@ -116,13 +116,6 @@ RSpec.describe AislerPricing do
 
     result = AislerPricing.price(102, args)
     expect(result.currency).to eq(args[:currency])
-  end
-
-  it 'should not return zero value for Precious Parts if no parts are included' do
-    args = {
-      bom_price_cents: 0
-    }
-    expect(AislerPricing.price(102, args).cents).to eq(300)
   end
 
   context 'should return assembly price' do
@@ -140,7 +133,7 @@ RSpec.describe AislerPricing do
       }
 
       expect(AislerPricing.assembly_price(args).cents).to eq(386_38)
-      expect(AislerPricing.price(104, args).cents).to eq(479_17)
+      expect(AislerPricing.price(104, args).cents).to eq(471_17)
     end
 
     it 'for double side' do
@@ -157,7 +150,7 @@ RSpec.describe AislerPricing do
       }
 
       expect(AislerPricing.assembly_price(args).cents).to eq(557_56)
-      expect(AislerPricing.price(104, args).cents).to eq(650_35)
+      expect(AislerPricing.price(104, args).cents).to eq(642_35)
     end
 
     it 'without tht' do
@@ -174,7 +167,7 @@ RSpec.describe AislerPricing do
       }
 
       expect(AislerPricing.assembly_price(args).cents).to eq(397_56)
-      expect(AislerPricing.price(104, args).cents).to eq(490_35)
+      expect(AislerPricing.price(104, args).cents).to eq(482_35)
     end
 
     it 'without smt' do
@@ -191,7 +184,7 @@ RSpec.describe AislerPricing do
       }
 
       expect(AislerPricing.assembly_price(args).cents).to eq(727_36)
-      expect(AislerPricing.price(104, args).cents).to eq(820_15)
+      expect(AislerPricing.price(104, args).cents).to eq(812_15)
     end
 
     it 'in different currency' do
@@ -223,7 +216,7 @@ RSpec.describe AislerPricing do
         double_sided: false
       }
 
-      expect(AislerPricing.price(104, args).cents).to eq(467_17)
+      expect(AislerPricing.price(104, args).cents).to eq(459_17)
     end
   end
 
