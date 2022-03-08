@@ -169,6 +169,8 @@ module AislerPricing
       Money.new(168)
     when 72
       Money.new(168)
+    when 73
+      Money.new(42)
     when 99
       express_shipping(args, currency)
     when 98
