@@ -106,11 +106,11 @@ module AislerPricing
     Money.new(net_price).exchange_to(currency)
   end
 
-  def self.precious_parts_price(args = {}, currency = DEFAULT_CURRENCY)
+  def self.parts_price(args = {}, currency = DEFAULT_CURRENCY)
     bom_price_cents = args[:bom_price_cents] || 0
 
     base_fee_cents = 0.0
-    service_charge = 1.20
+    service_charge = 1.25
 
     total = 0
     total += (bom_price_cents * service_charge).round
@@ -130,13 +130,13 @@ module AislerPricing
     area /= 100
 
     factor = args[:double_sided] ? 2 : 1
-    job_fee = 99_00 + 4_50 * args[:part_variance]
-    handling_fee = area * qty
+    part_setup_fee = 5_00 * args[:part_variance]
+    handling_fee = area * qty * factor * 0_01
     tht_setup_fee = tht_count.positive? ? 40_00 : 0
-    setup_fee = factor * (job_fee + handling_fee) + tht_setup_fee
+    setup_fee = handling_fee + tht_setup_fee + part_setup_fee
 
-    smt_placement_fee = qty * smt_count * 8
-    tht_placement_fee = qty * tht_count * 50
+    smt_placement_fee = qty * smt_count * 0_04
+    tht_placement_fee = qty * tht_count * 0_50
 
     Money.new(setup_fee + smt_placement_fee + tht_placement_fee).exchange_to(currency)
   end
@@ -145,14 +145,12 @@ module AislerPricing
     currency = args[:currency] || DEFAULT_CURRENCY
 
     case product_uid
-    when 102
-      precious_parts_price(args, currency)
     when 103
       stencil_price(args, currency)
     when 104
       prices = [
         board_price(args, currency),
-        precious_parts_price(args, currency),
+        parts_price(args, currency),
         stencil_price(args, currency),
         assembly_price(args, currency)
       ]
