@@ -101,21 +101,21 @@ RSpec.describe AislerPricing do
     ].each { |args| puts args.to_s + ' / ' + (AislerPricing.board_price(args) * 1.19).format }
   end
 
-  it 'should return prices for Precious Parts in EUR' do
+  it 'should return prices for electronic parts in EUR' do
     args = {
       bom_price_cents: 1337
     }
-    expect(AislerPricing.price(102, args).cents).to eq(1604)
+    expect(AislerPricing.parts_price(args).cents).to eq(1671)
   end
 
-  it 'should return prices for Precious Parts in other currency' do
+  it 'should return prices for electronic parts in other currency' do
     args = {
-      bom_price_cents: 1337,
-      currency: 'USD'
+      bom_price_cents: 1337
     }
+    currency = 'USD'
 
-    result = AislerPricing.price(102, args)
-    expect(result.currency).to eq(args[:currency])
+    result = AislerPricing.parts_price(args, currency)
+    expect(result.currency).to eq(currency)
   end
 
   context 'should return assembly price' do
@@ -132,8 +132,8 @@ RSpec.describe AislerPricing do
         double_sided: false
       }
 
-      expect(AislerPricing.assembly_price(args).cents).to eq(386_38)
-      expect(AislerPricing.price(104, args).cents).to eq(471_17)
+      expect(AislerPricing.assembly_price(args).cents).to eq(242_28)
+      expect(AislerPricing.price(104, args).cents).to eq(327_57)
     end
 
     it 'for double side' do
@@ -149,8 +149,8 @@ RSpec.describe AislerPricing do
         double_sided: true
       }
 
-      expect(AislerPricing.assembly_price(args).cents).to eq(557_56)
-      expect(AislerPricing.price(104, args).cents).to eq(642_35)
+      expect(AislerPricing.assembly_price(args).cents).to eq(255_96)
+      expect(AislerPricing.price(104, args).cents).to eq(341_25)
     end
 
     it 'without tht' do
@@ -166,8 +166,8 @@ RSpec.describe AislerPricing do
         double_sided: true
       }
 
-      expect(AislerPricing.assembly_price(args).cents).to eq(397_56)
-      expect(AislerPricing.price(104, args).cents).to eq(482_35)
+      expect(AislerPricing.assembly_price(args).cents).to eq(119_96)
+      expect(AislerPricing.price(104, args).cents).to eq(205_25)
     end
 
     it 'without smt' do
@@ -183,8 +183,8 @@ RSpec.describe AislerPricing do
         double_sided: true
       }
 
-      expect(AislerPricing.assembly_price(args).cents).to eq(727_36)
-      expect(AislerPricing.price(104, args).cents).to eq(812_15)
+      expect(AislerPricing.assembly_price(args).cents).to eq(408_36)
+      expect(AislerPricing.price(104, args).cents).to eq(493_65)
     end
 
     it 'in different currency' do
@@ -216,7 +216,7 @@ RSpec.describe AislerPricing do
         double_sided: false
       }
 
-      expect(AislerPricing.price(104, args).cents).to eq(459_17)
+      expect(AislerPricing.price(104, args).cents).to eq(315_07)
     end
   end
 
@@ -275,7 +275,7 @@ RSpec.describe AislerPricing do
       tier_countries = %w[be lu nl at cz]
 
       tier_countries.map do |cc|
-        it "returns correct tracked price for #{cc} (#{ISO3166::Country(cc).name})" do
+        it "returns correct tracked price for #{cc} (#{ISO3166::Country(cc).iso_short_name})" do
           args = {
             country_code: cc
           }
@@ -285,7 +285,7 @@ RSpec.describe AislerPricing do
           expect(result).to eq(899)
         end
 
-        it "returns correct express price for #{cc} (#{ISO3166::Country(cc).name})" do
+        it "returns correct express price for #{cc} (#{ISO3166::Country(cc).iso_short_name})" do
           args = {
             country_code: cc
           }
@@ -301,7 +301,7 @@ RSpec.describe AislerPricing do
       tier_countries = %w[dk fr gb it cr ro sk si hu]
 
       tier_countries.map do |cc|
-        it "returns correct tracked price for #{cc} (#{ISO3166::Country(cc).name})" do
+        it "returns correct tracked price for #{cc} (#{ISO3166::Country(cc).iso_short_name})" do
           args = {
             country_code: cc
           }
@@ -311,7 +311,7 @@ RSpec.describe AislerPricing do
           expect(result).to eq(1099)
         end
 
-        it "returns correct express price for #{cc} (#{ISO3166::Country(cc).name})" do
+        it "returns correct express price for #{cc} (#{ISO3166::Country(cc).iso_short_name})" do
           args = {
             country_code: cc
           }
@@ -327,7 +327,7 @@ RSpec.describe AislerPricing do
       tier_countries = %w[bg ee fi gr ir lt lv mt pt se es cy]
 
       tier_countries.map do |cc|
-        it "returns correct tracked price for #{cc} (#{ISO3166::Country(cc).name})" do
+        it "returns correct tracked price for #{cc} (#{ISO3166::Country(cc).iso_short_name})" do
           args = {
             country_code: cc
           }
@@ -337,7 +337,7 @@ RSpec.describe AislerPricing do
           expect(result).to eq(1299)
         end
 
-        it "returns correct express price for #{cc} (#{ISO3166::Country(cc).name})" do
+        it "returns correct express price for #{cc} (#{ISO3166::Country(cc).iso_short_name})" do
           args = {
             country_code: cc
           }
@@ -353,7 +353,7 @@ RSpec.describe AislerPricing do
       tier_countries = %w[ad gg je no sm ch]
 
       tier_countries.map do |cc|
-        it "returns correct tracked price for #{cc} (#{ISO3166::Country(cc).name})" do
+        it "returns correct tracked price for #{cc} (#{ISO3166::Country(cc).iso_short_name})" do
           args = {
             country_code: cc
           }
@@ -363,7 +363,7 @@ RSpec.describe AislerPricing do
           expect(result).to eq(1999)
         end
 
-        it "returns correct express price for #{cc} (#{ISO3166::Country(cc).name})" do
+        it "returns correct express price for #{cc} (#{ISO3166::Country(cc).iso_short_name})" do
           args = {
             country_code: cc
           }
@@ -379,7 +379,7 @@ RSpec.describe AislerPricing do
       tier_countries = %w[hk in ca mx tr ua ru ae us cn]
 
       tier_countries.map do |cc|
-        it "returns correct tracked price for #{cc} (#{ISO3166::Country(cc).name})" do
+        it "returns correct tracked price for #{cc} (#{ISO3166::Country(cc).iso_short_name})" do
           args = {
             country_code: cc
           }
@@ -389,7 +389,7 @@ RSpec.describe AislerPricing do
           expect(result).to eq(2399)
         end
 
-        it "returns correct express price for #{cc} (#{ISO3166::Country(cc).name})" do
+        it "returns correct express price for #{cc} (#{ISO3166::Country(cc).iso_short_name})" do
           args = {
             country_code: cc
           }
@@ -405,7 +405,7 @@ RSpec.describe AislerPricing do
       tier_countries =  %w[jp au]
 
       tier_countries.map do |cc|
-        it "returns correct tracked price for #{cc} (#{ISO3166::Country(cc).name})" do
+        it "returns correct tracked price for #{cc} (#{ISO3166::Country(cc).iso_short_name})" do
           args = {
             country_code: cc
           }
@@ -415,7 +415,7 @@ RSpec.describe AislerPricing do
           expect(result).to eq(3299)
         end
 
-        it "returns correct express price for #{cc} (#{ISO3166::Country(cc).name})" do
+        it "returns correct express price for #{cc} (#{ISO3166::Country(cc).iso_short_name})" do
           args = {
             country_code: cc
           }
