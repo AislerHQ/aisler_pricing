@@ -218,6 +218,22 @@ RSpec.describe AislerPricing do
 
       expect(AislerPricing.price(104, args).cents).to eq(315_07)
     end
+
+    it 'if quantity is just one' do
+      args = {
+        width: 80.0,
+        height: 80.0,
+        quantity: 1,
+        product_uid: 109,
+        part_variance: 0,
+        bom_price_cents: 0,
+        part_smt_count: 0,
+        part_tht_count: 0,
+        double_sided: false
+      }
+
+      expect(AislerPricing.price(104, args).cents).to eq(25_78)
+    end
   end
 
   context 'regarding shipping prices' do

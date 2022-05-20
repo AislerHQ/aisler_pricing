@@ -148,8 +148,11 @@ module AislerPricing
     when 103
       stencil_price(args, currency)
     when 104
+      # Always calculate at least 3 PCBs
+      min_pcb_qty = 3
+      board_args = args.merge(quantity: (args[:quantity].to_f / min_pcb_qty).ceil * min_pcb_qty)
       prices = [
-        board_price(args, currency),
+        board_price(board_args, currency),
         parts_price(args, currency),
         stencil_price(args, currency),
         assembly_price(args, currency)
