@@ -130,6 +130,8 @@ module AislerPricing
     area /= 100
 
     factor = args[:double_sided] ? 2 : 1
+    customer_supplied_parts = args[:customer_supplied_parts]
+    customer_supplied_parts_fee = customer_supplied_parts.nil? ? 15_00 * args[:part_variance] : 0
     part_setup_fee = 15_00 * args[:part_variance]
     handling_fee = area * qty * factor * 0_01
     tht_setup_fee = tht_count.positive? ? 40_00 : 0
@@ -138,7 +140,7 @@ module AislerPricing
     smt_placement_fee = qty * smt_count * 0_04
     tht_placement_fee = qty * tht_count * 0_50
 
-    Money.new(setup_fee + smt_placement_fee + tht_placement_fee).exchange_to(currency)
+    Money.new(setup_fee + smt_placement_fee + tht_placement_fee + customer_supplied_parts_fee).exchange_to(currency)
   end
 
   def self.price(product_uid, args = {})
