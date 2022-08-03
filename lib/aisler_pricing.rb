@@ -131,7 +131,7 @@ module AislerPricing
 
     factor = args[:double_sided] ? 2 : 1
     customer_supplied_parts = args[:customer_supplied_parts]
-    customer_supplied_parts_fee = customer_supplied_parts.nil? ? 15_00 * args[:part_variance] : 0
+    customer_supplied_parts_fee = customer_supplied_parts.present? ? 15_00 * args[:part_variance] : 0
     part_setup_fee = 15_00 * args[:part_variance]
     handling_fee = area * qty * factor * 0_01
     tht_setup_fee = tht_count.positive? ? 40_00 : 0
