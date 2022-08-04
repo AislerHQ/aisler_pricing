@@ -130,12 +130,11 @@ module AislerPricing
     area /= 100
 
     factor = args[:double_sided] ? 2 : 1
-    customer_supplied_part_variance = args[:customer_supplied_part_variance]
-    customer_supplied_parts_fee = !customer_supplied_part_variance.nil? ? 15_00 * customer_supplied_part_variance : 0
+    customer_supplied_part_fee = args[:customer_supplied_part_variance] ? 15_00 * args[:customer_supplied_part_variance] : 0
     part_setup_fee = 15_00 * args[:part_variance]
     handling_fee = area * qty * factor * 0_01
     tht_setup_fee = tht_count.positive? ? 40_00 : 0
-    setup_fee = handling_fee + tht_setup_fee + part_setup_fee + customer_supplied_parts_fee
+    setup_fee = handling_fee + tht_setup_fee + part_setup_fee + customer_supplied_part_fee
 
     smt_placement_fee = qty * smt_count * 0_04
     tht_placement_fee = qty * tht_count * 0_50
