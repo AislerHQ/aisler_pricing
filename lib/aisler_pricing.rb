@@ -135,12 +135,12 @@ module AislerPricing
     part_setup_fee = 15_00 * args[:part_variance]
     handling_fee = area * qty * factor * 0_01
     tht_setup_fee = tht_count.positive? ? 40_00 : 0
-    setup_fee = handling_fee + tht_setup_fee + part_setup_fee
+    setup_fee = handling_fee + tht_setup_fee + part_setup_fee + customer_supplied_parts_fee
 
     smt_placement_fee = qty * smt_count * 0_04
     tht_placement_fee = qty * tht_count * 0_50
 
-    Money.new(setup_fee + smt_placement_fee + tht_placement_fee + customer_supplied_parts_fee).exchange_to(currency)
+    Money.new(setup_fee + smt_placement_fee + tht_placement_fee).exchange_to(currency)
   end
 
   def self.price(product_uid, args = {})
