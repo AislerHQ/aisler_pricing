@@ -187,6 +187,41 @@ RSpec.describe AislerPricing do
       expect(AislerPricing.price(104, args).cents).to eq(623_65)
     end
 
+    it 'with customer supplied part variance' do
+      args = {
+        width: 80.0,
+        height: 57.0,
+        quantity: 30,
+        product_uid: 109,
+        part_variance: 13,
+        bom_price_cents: 1000,
+        part_smt_count: 23,
+        part_tht_count: 8,
+        customer_supplied_part_variance: 2,
+        double_sided: true
+      }
+
+      expect(AislerPricing.assembly_price(args).cents).to eq(415_96)
+      expect(AislerPricing.price(104, args).cents).to eq(501_25)
+    end
+
+    it 'without customer supplied part variance' do
+      args = {
+        width: 80.0,
+        height: 57.0,
+        quantity: 30,
+        product_uid: 109,
+        part_variance: 13,
+        bom_price_cents: 1000,
+        part_smt_count: 23,
+        part_tht_count: 8,
+        double_sided: true
+      }
+
+      expect(AislerPricing.assembly_price(args).cents).to eq(385_96)
+      expect(AislerPricing.price(104, args).cents).to eq(471_25)
+    end
+
     it 'in different currency' do
       args = {
         width: 80.0,
