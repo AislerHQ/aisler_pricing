@@ -132,8 +132,8 @@ RSpec.describe AislerPricing do
         double_sided: false
       }
 
-      expect(AislerPricing.assembly_price(args).cents).to eq(372_28)
-      expect(AislerPricing.price(104, args).cents).to eq(457_57)
+      expect(AislerPricing.assembly_price(args).cents).to eq(307_28)
+      expect(AislerPricing.price(104, args).cents).to eq(392_57)
     end
 
     it 'for double side' do
@@ -149,8 +149,8 @@ RSpec.describe AislerPricing do
         double_sided: true
       }
 
-      expect(AislerPricing.assembly_price(args).cents).to eq(385_96)
-      expect(AislerPricing.price(104, args).cents).to eq(471_25)
+      expect(AislerPricing.assembly_price(args).cents).to eq(400_96)
+      expect(AislerPricing.price(104, args).cents).to eq(486_25)
     end
 
     it 'without tht' do
@@ -166,8 +166,8 @@ RSpec.describe AislerPricing do
         double_sided: true
       }
 
-      expect(AislerPricing.assembly_price(args).cents).to eq(249_96)
-      expect(AislerPricing.price(104, args).cents).to eq(335_25)
+      expect(AislerPricing.assembly_price(args).cents).to eq(264_96)
+      expect(AislerPricing.price(104, args).cents).to eq(350_25)
     end
 
     it 'without smt' do
@@ -183,8 +183,8 @@ RSpec.describe AislerPricing do
         double_sided: true
       }
 
-      expect(AislerPricing.assembly_price(args).cents).to eq(538_36)
-      expect(AislerPricing.price(104, args).cents).to eq(623_65)
+      expect(AislerPricing.assembly_price(args).cents).to eq(553_36)
+      expect(AislerPricing.price(104, args).cents).to eq(638_65)
     end
 
     it 'with customer supplied part variance' do
@@ -201,8 +201,8 @@ RSpec.describe AislerPricing do
         double_sided: true
       }
 
-      expect(AislerPricing.assembly_price(args).cents).to eq(415_96)
-      expect(AislerPricing.price(104, args).cents).to eq(501_25)
+      expect(AislerPricing.assembly_price(args).cents).to eq(430_96)
+      expect(AislerPricing.price(104, args).cents).to eq(516_25)
     end
 
     it 'without customer supplied part variance' do
@@ -218,8 +218,8 @@ RSpec.describe AislerPricing do
         double_sided: true
       }
 
-      expect(AislerPricing.assembly_price(args).cents).to eq(385_96)
-      expect(AislerPricing.price(104, args).cents).to eq(471_25)
+      expect(AislerPricing.assembly_price(args).cents).to eq(400_96)
+      expect(AislerPricing.price(104, args).cents).to eq(486_25)
     end
 
     it 'in different currency' do
@@ -251,12 +251,12 @@ RSpec.describe AislerPricing do
         double_sided: false
       }
 
-      expect(AislerPricing.price(104, args).cents).to eq(445_07)
+      expect(AislerPricing.price(104, args).cents).to eq(380_07)
     end
 
     it 'if quantity is just one' do
       args = {
-        width: 80.0,
+        width: 100.0,
         height: 80.0,
         quantity: 1,
         product_uid: 109,
@@ -267,7 +267,7 @@ RSpec.describe AislerPricing do
         double_sided: false
       }
 
-      expect(AislerPricing.price(104, args).cents).to eq(25_78)
+      expect(AislerPricing.price(104, args).cents).to eq(29_48)
     end
   end
 
