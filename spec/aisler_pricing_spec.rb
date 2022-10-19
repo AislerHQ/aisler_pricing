@@ -278,8 +278,7 @@ RSpec.describe AislerPricing do
         height: 80.0,
         quantity: 2,
         part_smt_count: 10,
-        part_tht_count: 0,
-        double_sided: false
+        part_tht_count: 0
       }
 
       expect(AislerPricing.price(165, args).cents).to eq(57_88)
