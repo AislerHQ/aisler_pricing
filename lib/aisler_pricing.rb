@@ -59,7 +59,7 @@ module AislerPricing
     when 107
       0.117
     when 108
-      0.117
+      0.146
     when 109
       0.042
     end
@@ -119,7 +119,7 @@ module AislerPricing
     Money.new(total).exchange_to(currency)
   end
 
-  def self.series_assembly_price(args, currency = DEFAULT_CURRENCY)
+  def self.assembly_price(args, currency = DEFAULT_CURRENCY)
     qty = args[:quantity]
     smt_count = args[:part_smt_count]
     tht_count = args[:part_tht_count]
@@ -144,24 +144,13 @@ module AislerPricing
     Money.new(setup_fee + smt_placement_fee + tht_placement_fee).exchange_to(currency)
   end
 
-  def self.prototyping_assembly_price(args, currency = DEFAULT_CURRENCY)
-    return Money.new(0).exchange_to(currency) unless args[:quantity]
-
-    setup_fee = 25_00
-    placement_fee = (args[:part_smt_count] + args[:part_tht_count]) * args[:quantity] * 0_25
-
-    Money.new(setup_fee + placement_fee).exchange_to(currency)
-  end
-
   def self.price(product_uid, args = {})
     currency = args[:currency] || DEFAULT_CURRENCY
 
     case product_uid
     when 103
       stencil_price(args, currency)
-    when (105..155)
-      board_price(args.merge(product_uid: product_uid), currency)
-    when 164
+    when 104
       # Always calculate at least 3 PCBs
       min_pcb_qty = 3
       board_args = args.merge(quantity: (args[:quantity].to_f / min_pcb_qty).ceil * min_pcb_qty)
@@ -169,23 +158,11 @@ module AislerPricing
         board_price(board_args, currency),
         parts_price(args, currency),
         stencil_price(args, currency),
-        series_assembly_price(args, currency)
+        assembly_price(args, currency)
       ]
       prices.sum
-    when 165
-      # Always calculate at least 3 PCBs
-      min_pcb_qty = 3
-      board_args = args.merge(
-        quantity: (args[:quantity].to_f / min_pcb_qty).ceil * min_pcb_qty,
-        product_uid: 109
-      )
-      prices = [
-        board_price(board_args, currency),
-        parts_price(args, currency),
-        stencil_price(args, currency),
-        prototyping_assembly_price(args, currency)
-      ]
-      prices.sum
+    when (105..155)
+      board_price(args.merge(product_uid: product_uid), currency)
     when 202
       Money.new(0)
     when 203
