@@ -59,7 +59,7 @@ module AislerPricing
     when 107
       0.117
     when 108
-      0.117
+      0.146
     when 109
       0.042
     end
