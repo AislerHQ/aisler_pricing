@@ -115,7 +115,7 @@ RSpec.describe AislerPricing do
     args = {
       bom_price_cents: 1337
     }
-    expect(AislerPricing.parts_price(args).cents).to eq(1671)
+    expect(AislerPricing.parts_price(args).cents).to eq(1805)
   end
 
   it 'should return prices for electronic parts in other currency' do
@@ -143,7 +143,7 @@ RSpec.describe AislerPricing do
       }
 
       expect(AislerPricing.assembly_price(args).cents).to eq(30728)
-      expect(AislerPricing.price(104, args).cents).to eq(39557)
+      expect(AislerPricing.price(104, args).cents).to eq(39657)
     end
 
     it 'for double side' do
@@ -160,7 +160,7 @@ RSpec.describe AislerPricing do
       }
 
       expect(AislerPricing.assembly_price(args).cents).to eq(40096)
-      expect(AislerPricing.price(104, args).cents).to eq(48925)
+      expect(AislerPricing.price(104, args).cents).to eq(49025)
     end
 
     it 'without tht' do
@@ -177,7 +177,7 @@ RSpec.describe AislerPricing do
       }
 
       expect(AislerPricing.assembly_price(args).cents).to eq(264_96)
-      expect(AislerPricing.price(104, args).cents).to eq(35325)
+      expect(AislerPricing.price(104, args).cents).to eq(35425)
     end
 
     it 'without smt' do
@@ -194,7 +194,7 @@ RSpec.describe AislerPricing do
       }
 
       expect(AislerPricing.assembly_price(args).cents).to eq(553_36)
-      expect(AislerPricing.price(104, args).cents).to eq(64165)
+      expect(AislerPricing.price(104, args).cents).to eq(64265)
     end
 
     it 'with customer supplied part variance' do
@@ -212,7 +212,7 @@ RSpec.describe AislerPricing do
       }
 
       expect(AislerPricing.assembly_price(args).cents).to eq(430_96)
-      expect(AislerPricing.price(104, args).cents).to eq(519_25)
+      expect(AislerPricing.price(104, args).cents).to eq(520_25)
     end
 
     it 'without customer supplied part variance' do
@@ -229,7 +229,7 @@ RSpec.describe AislerPricing do
       }
 
       expect(AislerPricing.assembly_price(args).cents).to eq(400_96)
-      expect(AislerPricing.price(104, args).cents).to eq(489_25)
+      expect(AislerPricing.price(104, args).cents).to eq(490_25)
     end
 
     it 'in different currency' do
