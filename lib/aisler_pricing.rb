@@ -43,13 +43,13 @@ module AislerPricing
     when 105
       12.00
     when 106
-      6.0
+      9.0
     when 107
-      6.0
+      9.0
     when 108
-      6.0
+      9.0
     when 109
-      6.0
+      9.0
     end
     price_per_cm2 = case args[:product_uid]
     when 105
