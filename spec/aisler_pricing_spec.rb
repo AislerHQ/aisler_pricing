@@ -333,7 +333,7 @@ RSpec.describe AislerPricing do
         }
 
         result = AislerPricing.tracked_shipping(args)
-        expect(result.cents).to eq(799)
+        expect(result.cents).to eq(899)
       end
 
       it 'returns correct express price for Germany' do
@@ -342,38 +342,12 @@ RSpec.describe AislerPricing do
         }
 
         result = AislerPricing.express_shipping(args)
-        expect(result.cents).to eq(1099)
+        expect(result.cents).to eq(1699)
       end
     end
 
     context 'for Tier A countries' do
       tier_countries = %w[be lu nl at cz]
-
-      tier_countries.map do |cc|
-        it "returns correct tracked price for #{cc} (#{ISO3166::Country(cc).iso_short_name})" do
-          args = {
-            country_code: cc
-          }
-
-          result = AislerPricing.tracked_shipping(args).cents
-
-          expect(result).to eq(899)
-        end
-
-        it "returns correct express price for #{cc} (#{ISO3166::Country(cc).iso_short_name})" do
-          args = {
-            country_code: cc
-          }
-
-          result = AislerPricing.express_shipping(args).cents
-
-          expect(result).to eq(1299)
-        end
-      end
-    end
-
-    context 'for Tier B countries' do
-      tier_countries = %w[dk fr gb it cr ro sk si hu]
 
       tier_countries.map do |cc|
         it "returns correct tracked price for #{cc} (#{ISO3166::Country(cc).iso_short_name})" do
@@ -393,13 +367,13 @@ RSpec.describe AislerPricing do
 
           result = AislerPricing.express_shipping(args).cents
 
-          expect(result).to eq(2499)
+          expect(result).to eq(1999)
         end
       end
     end
 
-    context 'for Tier C countries' do
-      tier_countries = %w[bg ee fi gr ir lt lv mt pt se es cy]
+    context 'for Tier B countries' do
+      tier_countries = %w[dk fr gb it cr ro sk si hu]
 
       tier_countries.map do |cc|
         it "returns correct tracked price for #{cc} (#{ISO3166::Country(cc).iso_short_name})" do
@@ -419,7 +393,33 @@ RSpec.describe AislerPricing do
 
           result = AislerPricing.express_shipping(args).cents
 
-          expect(result).to eq(2699)
+          expect(result).to eq(3799)
+        end
+      end
+    end
+
+    context 'for Tier C countries' do
+      tier_countries = %w[bg ee fi gr ir lt lv mt pt se es cy]
+
+      tier_countries.map do |cc|
+        it "returns correct tracked price for #{cc} (#{ISO3166::Country(cc).iso_short_name})" do
+          args = {
+            country_code: cc
+          }
+
+          result = AislerPricing.tracked_shipping(args).cents
+
+          expect(result).to eq(1499)
+        end
+
+        it "returns correct express price for #{cc} (#{ISO3166::Country(cc).iso_short_name})" do
+          args = {
+            country_code: cc
+          }
+
+          result = AislerPricing.express_shipping(args).cents
+
+          expect(result).to eq(4099)
         end
       end
     end
@@ -435,7 +435,7 @@ RSpec.describe AislerPricing do
 
           result = AislerPricing.tracked_shipping(args).cents
 
-          expect(result).to eq(1999)
+          expect(result).to eq(2299)
         end
 
         it "returns correct express price for #{cc} (#{ISO3166::Country(cc).iso_short_name})" do
@@ -445,7 +445,7 @@ RSpec.describe AislerPricing do
 
           result = AislerPricing.express_shipping(args).cents
 
-          expect(result).to eq(3099)
+          expect(result).to eq(4699)
         end
       end
     end
@@ -461,7 +461,7 @@ RSpec.describe AislerPricing do
 
           result = AislerPricing.tracked_shipping(args).cents
 
-          expect(result).to eq(2399)
+          expect(result).to eq(2699)
         end
 
         it "returns correct express price for #{cc} (#{ISO3166::Country(cc).iso_short_name})" do
@@ -471,7 +471,7 @@ RSpec.describe AislerPricing do
 
           result = AislerPricing.express_shipping(args).cents
 
-          expect(result).to eq(3599)
+          expect(result).to eq(5399)
         end
       end
     end
@@ -487,7 +487,7 @@ RSpec.describe AislerPricing do
 
           result = AislerPricing.tracked_shipping(args).cents
 
-          expect(result).to eq(3299)
+          expect(result).to eq(3699)
         end
 
         it "returns correct express price for #{cc} (#{ISO3166::Country(cc).iso_short_name})" do
@@ -497,7 +497,7 @@ RSpec.describe AislerPricing do
 
           result = AislerPricing.express_shipping(args).cents
 
-          expect(result).to eq(4099)
+          expect(result).to eq(6199)
         end
       end
     end

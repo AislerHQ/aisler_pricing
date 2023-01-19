@@ -1,31 +1,31 @@
 ---
 tierA0: &tierA0
-  tracked_net_price: 7.99
-  express_net_price: 10.99
+  tracked_net_price: 8.99
+  express_net_price: 16.99
 
 tierA: &tierA
-  tracked_net_price: 8.99
-  express_net_price: 12.99
+  tracked_net_price: 10.99
+  express_net_price: 19.99
 
 tierB: &tierB
-  tracked_net_price: 10.99
-  express_net_price: 24.99
+  tracked_net_price: 12.99
+  express_net_price: 37.99
 
 tierC: &tierC
-  tracked_net_price: 12.99
-  express_net_price: 26.99
+  tracked_net_price: 14.99
+  express_net_price: 40.99
 
 tierD: &tierD
-  tracked_net_price: 19.99
-  express_net_price: 30.99
+  tracked_net_price: 22.99
+  express_net_price: 46.99
 
 tierE: &tierE
-  tracked_net_price: 23.99
-  express_net_price: 35.99
+  tracked_net_price: 26.99
+  express_net_price: 53.99
 
 tierF: &tierF
-  tracked_net_price: 32.99
-  express_net_price: 40.99
+  tracked_net_price: 36.99
+  express_net_price: 61.99
 
 tierNA: &tierNA
   tracked_net_price: 15.00
