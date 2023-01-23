@@ -110,7 +110,7 @@ module AislerPricing
     bom_price_cents = args[:bom_price_cents] || 0
 
     base_fee_cents = 0.0
-    service_charge = 1.35
+    service_charge = 1.45
 
     total = 0
     total += (bom_price_cents * service_charge).round
