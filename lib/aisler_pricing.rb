@@ -110,7 +110,7 @@ module AislerPricing
     bom_price_cents = args[:bom_price_cents] || 0
 
     base_fee_cents = 0.0
-    service_charge = 1.45
+    service_charge = 1.50
 
     total = 0
     total += (bom_price_cents * service_charge).round
@@ -133,9 +133,9 @@ module AislerPricing
     customer_supplied_part_variance = args[:customer_supplied_part_variance] || 0
     customer_supplied_part_fee = 15_00 * customer_supplied_part_variance
     part_setup_fee = 10_00 * args[:part_variance]
-    handling_fee = area * qty * factor * 0_01
-    double_side_fee = (factor - 1) * 80_00
-    tht_setup_fee = tht_count.positive? ? 40_00 : 0
+    handling_fee = area * qty * factor * 0_02
+    double_side_fee = (factor - 1) * 175_00
+    tht_setup_fee = tht_count.positive? ? 65_00 : 0
     setup_fee = handling_fee + tht_setup_fee + part_setup_fee + customer_supplied_part_fee + double_side_fee
 
     smt_placement_fee = qty * smt_count * 0_04
