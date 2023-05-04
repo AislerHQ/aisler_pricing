@@ -11,9 +11,10 @@ module AislerPricing
   VAT_RATES = { de: 19 }.freeze
   Money.default_currency = Money::Currency.new(DEFAULT_CURRENCY)
   Money.default_bank = EuCentralBank.new
-  Money.default_bank.add_rate('EUR', 'USD', 1.25) # Fixed rate for our U.S. business
+  exchange_rate = Money.default_bank.get_rate('EUR', 'USD')
 
-  def self.update_rates
+  # Check if rate is already set
+  unless exchange_rate
     Money.default_bank.update_rates
   end
 

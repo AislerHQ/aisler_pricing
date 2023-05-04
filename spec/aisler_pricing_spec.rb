@@ -84,13 +84,6 @@ RSpec.describe AislerPricing do
     expect(AislerPricing.board_price( { width: 100, height: 100, quantity: 3, product_uid: 105} ).cents).to eq(price_cents)
   end
 
-  it 'should require EU Central Bank rates if prices are requested in different currencies than Euros or U.S. dollars' do
-    expect { price = AislerPricing.stencil_price({ area: 10 }, 'CAD') }.to raise_error(Money::Bank::UnknownRate)
-
-    AislerPricing.update_rates
-    expect { price = AislerPricing.stencil_price({ area: 10 }, 'CAD') }.not_to raise_error
-  end
-
   it 'should return prices for AISLER product codes' do
     expect(AislerPricing.price(105, area: 1, quantity: 3).cents).to eq(1600)
     expect(AislerPricing.price(103, area: 1600, smd_pad_count_top: 10, smd_pad_count_bottom: 0).cents).to eq(652)
