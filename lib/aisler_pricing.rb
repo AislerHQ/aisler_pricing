@@ -9,12 +9,12 @@ module AislerPricing
   DEFAULT_CURRENCY = 'EUR'.freeze
   VAT_MULTIPLIERS = { de: 1.19 }.freeze
   VAT_RATES = { de: 19 }.freeze
-  Money.default_currency = Money::Currency.new(DEFAULT_CURRENCY)
-  Money.default_bank = EuCentralBank.new
-  exchange_rate = Money.default_bank.get_rate('EUR', 'USD')
 
-  # Check if rate is already set
-  unless exchange_rate
+  begin
+    Money.default_bank.update_rates
+  rescue
+    Money.default_currency = Money::Currency.new(DEFAULT_CURRENCY)
+    Money.default_bank = EuCentralBank.new
     Money.default_bank.update_rates
   end
 
