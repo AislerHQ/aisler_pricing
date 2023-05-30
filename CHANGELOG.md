@@ -8,3 +8,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed:
 - Removed AislerPricing.update_rates
 - Rates are updated on initialization if not set
+- Requires already set configuration of Money Gem
