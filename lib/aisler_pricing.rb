@@ -12,7 +12,7 @@ module AislerPricing
 
   begin
     Money.default_bank.update_rates
-  rescue
+  rescue NoMethodError
     Money.default_currency = Money::Currency.new(DEFAULT_CURRENCY)
     Money.default_bank = EuCentralBank.new
     Money.default_bank.update_rates
