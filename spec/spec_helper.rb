@@ -14,3 +14,5 @@ RSpec.configure do |config|
 end
 
 Money.locale_backend = :currency
+Money.default_currency = Money::Currency.new('EUR')
+Money.default_bank.add_rate('EUR', 'USD', 1.25)

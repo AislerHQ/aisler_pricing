@@ -9,13 +9,6 @@ module AislerPricing
   DEFAULT_CURRENCY = 'EUR'.freeze
   VAT_MULTIPLIERS = { de: 1.19 }.freeze
   VAT_RATES = { de: 19 }.freeze
-  Money.default_currency = Money::Currency.new(DEFAULT_CURRENCY)
-  Money.default_bank = EuCentralBank.new
-  Money.default_bank.add_rate('EUR', 'USD', 1.25) # Fixed rate for our U.S. business
-
-  def self.update_rates
-    Money.default_bank.update_rates
-  end
 
   def self.shipping_prices_data(country_code = nil)
     shipping_config ||= YAML.load(IO.read(File.expand_path('../aisler_pricing/shipping_prices.yml', __FILE__)), symbolize_names: true)
