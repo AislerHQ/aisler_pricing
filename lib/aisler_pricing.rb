@@ -113,28 +113,29 @@ module AislerPricing
   end
 
   def self.assembly_price(args, currency = DEFAULT_CURRENCY)
+    customer_supplied_part_variance = args[:customer_supplied_part_variance] || 0
     qty = args[:quantity]
     smt_count = args[:part_smt_count]
     tht_count = args[:part_tht_count]
 
-    return Money.new(0).exchange_to(currency) unless qty
+    manual_fees = []
+    manual_fees << qty * tht_count * 38
+    manual_fees << qty * smt_count * 38
 
-    area = args[:area] ? args[:area] : (args[:width] * args[:height])
-    area /= 100
+    manual_fees << 60_00
+    manual_fees << 30_00 if args[:double_sided]
+    manual_fees << 15_00 * customer_supplied_part_variance
 
-    factor = args[:double_sided] ? 2 : 1
-    customer_supplied_part_variance = args[:customer_supplied_part_variance] || 0
-    customer_supplied_part_fee = 15_00 * customer_supplied_part_variance
-    part_setup_fee = 10_00 * args[:part_variance]
-    handling_fee = area * qty * factor * 0_02
-    double_side_fee = (factor - 1) * 175_00
-    tht_setup_fee = tht_count.positive? ? 65_00 : 0
-    setup_fee = handling_fee + tht_setup_fee + part_setup_fee + customer_supplied_part_fee + double_side_fee
+    automatic_fees = []
+    automatic_fees << 262_50
+    automatic_fees << 262_50 if args[:double_sided]
+    automatic_fees << 3_75 * args[:part_variance]
+    automatic_fees << qty * smt_count * 3
+    automatic_fees << 30_00 unless tht_count.zero?
+    automatic_fees << qty * tht_count * 38
+    automatic_fees << 15_00 * customer_supplied_part_variance
 
-    smt_placement_fee = qty * smt_count * 0_04
-    tht_placement_fee = qty * tht_count * 0_50
-
-    Money.new(setup_fee + smt_placement_fee + tht_placement_fee).exchange_to(currency)
+    Money.new([manual_fees.sum, automatic_fees.sum].min).exchange_to(currency)
   end
 
   def self.price(product_uid, args = {})
