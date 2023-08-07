@@ -135,7 +135,7 @@ RSpec.describe AislerPricing do
         double_sided: false
       }
 
-      expect(AislerPricing.assembly_price(args).cents).to eq(41340)
+      expect(AislerPricing.assembly_price(args).cents).to eq(42840)
     end
 
     it 'for double side' do
@@ -151,7 +151,7 @@ RSpec.describe AislerPricing do
         double_sided: true
       }
 
-      expect(AislerPricing.assembly_price(args).cents).to eq(44340)
+      expect(AislerPricing.assembly_price(args).cents).to eq(45840)
     end
 
     it 'without tht' do
@@ -167,7 +167,7 @@ RSpec.describe AislerPricing do
         double_sided: true
       }
 
-      expect(AislerPricing.assembly_price(args).cents).to eq(35220)
+      expect(AislerPricing.assembly_price(args).cents).to eq(36720)
     end
 
     it 'without smt' do
@@ -183,7 +183,7 @@ RSpec.describe AislerPricing do
         double_sided: true
       }
 
-      expect(AislerPricing.assembly_price(args).cents).to eq(36360)
+      expect(AislerPricing.assembly_price(args).cents).to eq(37860)
     end
 
     it 'with customer supplied part variance' do
@@ -200,7 +200,7 @@ RSpec.describe AislerPricing do
         double_sided: true
       }
 
-      expect(AislerPricing.assembly_price(args).cents).to eq(48840)
+      expect(AislerPricing.assembly_price(args).cents).to eq(50340)
     end
 
     it 'without customer supplied part variance' do
@@ -216,7 +216,7 @@ RSpec.describe AislerPricing do
         double_sided: true
       }
 
-      expect(AislerPricing.assembly_price(args).cents).to eq(44340)
+      expect(AislerPricing.assembly_price(args).cents).to eq(45840)
     end
 
     it 'in different currency' do
@@ -248,7 +248,7 @@ RSpec.describe AislerPricing do
         double_sided: false
       }
 
-      expect(AislerPricing.price(104, args).cents).to eq(49219)
+      expect(AislerPricing.price(104, args).cents).to eq(50719)
     end
 
     it 'if quantity is just one' do
@@ -264,7 +264,7 @@ RSpec.describe AislerPricing do
         double_sided: false
       }
 
-      expect(AislerPricing.price(104, args).cents).to eq(9468)
+      expect(AislerPricing.price(104, args).cents).to eq(10968)
     end
   end
 

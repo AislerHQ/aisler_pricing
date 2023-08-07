@@ -122,7 +122,7 @@ module AislerPricing
     manual_fees << qty * tht_count * 38
     manual_fees << qty * smt_count * 38
 
-    manual_fees << 60_00
+    manual_fees << 75_00
     manual_fees << 30_00 if args[:double_sided]
     manual_fees << 15_00 * customer_supplied_part_variance
 
