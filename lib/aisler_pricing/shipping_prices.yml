@@ -79,8 +79,11 @@ tr: *tierE # Turkey
 ua: *tierE # Ukraine
 ru: *tierE # Russia
 ae: *tierE # United Arab Emirates
-us: *tierE # United States of America
 cn: *tierE # China
+
+us: # United States of America
+  tracked_net_price: 14.99
+  express_net_price: 53.99
 
 global: *tierF # Price for Rest of the World
 fallback_country_not_given: *tierNA # Fallback price if the country is not known/given

@@ -424,7 +424,7 @@ RSpec.describe AislerPricing do
     end
 
     context 'for Tier E countries' do
-      tier_countries = %w[hk in ca mx tr ua ru ae us cn]
+      tier_countries = %w[hk in ca mx tr ua ru ae cn]
 
       tier_countries.map do |cc|
         it "returns correct tracked price for #{cc} (#{ISO3166::Country(cc).iso_short_name})" do
@@ -473,6 +473,11 @@ RSpec.describe AislerPricing do
           expect(result).to eq(6199)
         end
       end
+    end
+
+    it 'return US tracked shipping price' do
+      result = AislerPricing.tracked_shipping(country_code: 'US').cents
+      expect(result).to eq(1499)
     end
   end
 end
