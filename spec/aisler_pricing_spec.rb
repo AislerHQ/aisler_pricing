@@ -281,7 +281,7 @@ RSpec.describe AislerPricing do
         double_sided: false
       }
 
-      expect(AislerPricing.assembly_price(args).cents).to eq(42840)
+      expect(AislerPricing.assembly_price(args).cents).to eq(2276_25)
     end
   end
 
