@@ -1,3 +1,4 @@
+require 'spec_helper'
 require 'countries'
 
 RSpec.describe AislerPricing do
@@ -265,6 +266,22 @@ RSpec.describe AislerPricing do
       }
 
       expect(AislerPricing.price(104, args).cents).to eq(10968)
+    end
+
+    it 'for machine assembly volume' do
+      args = {
+        width: 80.0,
+        height: 57.0,
+        quantity: 500,
+        product_uid: 109,
+        part_variance: 13,
+        bom_price_cents: 1000,
+        part_smt_count: 23,
+        part_tht_count: 8,
+        double_sided: false
+      }
+
+      expect(AislerPricing.assembly_price(args).cents).to eq(2276_25)
     end
   end
 
