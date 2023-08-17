@@ -127,8 +127,8 @@ module AislerPricing
     manual_fees << 15_00 * customer_supplied_part_variance
 
     automatic_fees = []
-    automatic_fees << 262_50
-    automatic_fees << 262_50 if args[:double_sided]
+    automatic_fees << 332_50
+    automatic_fees << 332_50 if args[:double_sided]
     automatic_fees << 3_75 * args[:part_variance]
     automatic_fees << qty * smt_count * 3
     automatic_fees << 30_00 unless tht_count.zero?
