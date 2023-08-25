@@ -42,7 +42,7 @@ module AislerPricing
     when 108
       12.0
     when 109
-      12.0
+      10.0
     end
     price_per_cm2 = case args[:product_uid]
     when 105
@@ -52,9 +52,9 @@ module AislerPricing
     when 107
       0.117
     when 108
-      0.146
+      0.1825
     when 109
-      0.042
+      0.0525
     end
 
     total = area * args[:quantity] * price_per_cm2

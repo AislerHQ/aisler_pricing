@@ -37,7 +37,7 @@ RSpec.describe AislerPricing do
     expect(price).to be_an_instance_of Money
 
     price *= 1.19
-    expect(price.cents).to eq(3305)
+    expect(price.cents).to eq(3773)
   end
 
   it 'should receive stencil price' do
@@ -102,6 +102,7 @@ RSpec.describe AislerPricing do
       { width: 160, height: 100, quantity: 12, product_uid: 109 },
       { width: 20, height: 20, quantity: 3, product_uid: 108 },
       { width: 60, height: 60, quantity: 3, product_uid: 108 },
+      { width: 50, height: 50, quantity: 3, product_uid: 109 },
     ].each { |args| puts args.to_s + ' / ' + AislerPricing.board_price(args).format + '/' + (AislerPricing.board_price(args) * 1.19).format }
   end
 
@@ -249,7 +250,7 @@ RSpec.describe AislerPricing do
         double_sided: false
       }
 
-      expect(AislerPricing.price(104, args).cents).to eq(50719)
+      expect(AislerPricing.price(104, args).cents).to eq(51955)
     end
 
     it 'if quantity is just one' do
@@ -265,7 +266,7 @@ RSpec.describe AislerPricing do
         double_sided: false
       }
 
-      expect(AislerPricing.price(104, args).cents).to eq(10968)
+      expect(AislerPricing.price(104, args).cents).to eq(11020)
     end
 
     it 'for machine assembly volume' do
