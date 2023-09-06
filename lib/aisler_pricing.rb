@@ -30,7 +30,7 @@ module AislerPricing
     area = args[:area] ? args[:area] : (args[:width] * args[:height])
     area /= 100
 
-    return Money.new(0) unless (105..155).include? args[:product_uid]
+    return Money.new(0, DEFAULT_CURRENCY) unless (105..155).include? args[:product_uid]
 
     base = case args[:product_uid]
     when 105
@@ -59,7 +59,7 @@ module AislerPricing
 
     total = area * args[:quantity] * price_per_cm2
     total += base
-    Money.new((total * 100).round).exchange_to(currency)
+    Money.from_amount(total, DEFAULT_CURRENCY).exchange_to(currency)
   end
 
   def self.stencil_price(args, currency = DEFAULT_CURRENCY)
@@ -74,29 +74,29 @@ module AislerPricing
 
     total = area * price_per_cm2
     total += base
-    Money.new((total * 100).round).exchange_to(currency)
+    Money.from_amount(total, DEFAULT_CURRENCY).exchange_to(currency)
   end
 
   def self.registration_frame_price(currency = DEFAULT_CURRENCY)
-    Money.new(840).exchange_to(currency)
+    Money.new(8_40, DEFAULT_CURRENCY).exchange_to(currency)
   end
 
   def self.shipping(currency = DEFAULT_CURRENCY)
-    Money.new(0).exchange_to(currency)
+    Money.new(0, DEFAULT_CURRENCY).exchange_to(currency)
   end
 
   def self.tracked_shipping(args = {}, currency = DEFAULT_CURRENCY)
     country_code = args[:country_code]
-    net_price = self.shipping_prices_data(country_code)[:tracked_net_price] * 100
+    net_price = self.shipping_prices_data(country_code)[:tracked_net_price]
 
-    Money.new(net_price).exchange_to(currency)
+    Money.from_amount(net_price, DEFAULT_CURRENCY).exchange_to(currency)
   end
 
   def self.express_shipping(args = {}, currency = DEFAULT_CURRENCY)
     country_code = args[:country_code]
-    net_price = self.shipping_prices_data(country_code)[:express_net_price] * 100
+    net_price = self.shipping_prices_data(country_code)[:express_net_price]
 
-    Money.new(net_price).exchange_to(currency)
+    Money.from_amount(net_price, DEFAULT_CURRENCY).exchange_to(currency)
   end
 
   def self.parts_price(args = {}, currency = DEFAULT_CURRENCY)
@@ -109,7 +109,7 @@ module AislerPricing
     total += (bom_price_cents * service_charge).round
     total += base_fee_cents
 
-    Money.new(total).exchange_to(currency)
+    Money.new(total, DEFAULT_CURRENCY).exchange_to(currency)
   end
 
   def self.assembly_price(args, currency = DEFAULT_CURRENCY)
@@ -135,7 +135,8 @@ module AislerPricing
     automatic_fees << qty * tht_count * 38
     automatic_fees << 15_00 * customer_supplied_part_variance
 
-    Money.new([manual_fees.sum, automatic_fees.sum].min).exchange_to(currency)
+    price = [manual_fees.sum, automatic_fees.sum].min
+    Money.new(price, DEFAULT_CURRENCY).exchange_to(currency)
   end
 
   def self.price(product_uid, args = {})
@@ -158,17 +159,17 @@ module AislerPricing
     when (105..155)
       board_price(args.merge(product_uid: product_uid), currency)
     when 202
-      Money.new(0)
+      Money.new(0, DEFAULT_CURRENCY).exchange_to(currency)
     when 203
-      Money.new(6000)
+      Money.new(60_00, DEFAULT_CURRENCY).exchange_to(currency)
     when 204
-      Money.new(0)
+      Money.new(0, DEFAULT_CURRENCY).exchange_to(currency)
     when 71
-      Money.new(168)
+      Money.new(1_68, DEFAULT_CURRENCY).exchange_to(currency)
     when 72
-      Money.new(168)
+      Money.new(1_68, DEFAULT_CURRENCY).exchange_to(currency)
     when 73
-      Money.new(42)
+      Money.new(42, DEFAULT_CURRENCY).exchange_to(currency)
     when 99
       express_shipping(args, currency)
     when 98
