@@ -30,7 +30,7 @@ module AislerPricing
     area = args[:area] ? args[:area] : (args[:width] * args[:height])
     area /= 100
 
-    return Money.new(0, DEFAULT_CURRENCY) unless (105..155).include? args[:product_uid]
+    return Money.new(0, currency) unless (105..155).include? args[:product_uid]
 
     base = case args[:product_uid]
     when 105
@@ -82,7 +82,7 @@ module AislerPricing
   end
 
   def self.shipping(currency = DEFAULT_CURRENCY)
-    Money.new(0, DEFAULT_CURRENCY).exchange_to(currency)
+    Money.new(0, currency)
   end
 
   def self.tracked_shipping(args = {}, currency = DEFAULT_CURRENCY)
@@ -159,11 +159,11 @@ module AislerPricing
     when (105..155)
       board_price(args.merge(product_uid: product_uid), currency)
     when 202
-      Money.new(0, DEFAULT_CURRENCY).exchange_to(currency)
+      Money.new(0, currency)
     when 203
       Money.new(60_00, DEFAULT_CURRENCY).exchange_to(currency)
     when 204
-      Money.new(0, DEFAULT_CURRENCY).exchange_to(currency)
+      Money.new(0, currency)
     when 71
       Money.new(1_68, DEFAULT_CURRENCY).exchange_to(currency)
     when 72
