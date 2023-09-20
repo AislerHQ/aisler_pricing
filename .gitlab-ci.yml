@@ -6,7 +6,8 @@ before_script:
   - bundle install
 
 .cache:
-    key: default-cache
+  cache:
+    key: cache-$CI_JOB_NAME
     paths:
       - vendor/bundle
 
