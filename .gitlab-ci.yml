@@ -22,7 +22,7 @@ rspec_3_2:
   script:
     - bin/rspec
   extends:
-    - cache
+    - .cache
 
 rspec_2_7:
   image: ruby:2.7
@@ -32,7 +32,7 @@ rspec_2_7:
   script:
     - bin/rspec
   extends:
-    - cache
+    - .cache
 
 deploy_job:
   image: ruby:3.2
@@ -45,4 +45,4 @@ deploy_job:
     - bin/rake build
     - bundle exec gem inabox -g https://${BUNDLE_GEMS__AISLER__TEAM}@gems.aisler.team
   extends:
-    - cache
+    - .cache
