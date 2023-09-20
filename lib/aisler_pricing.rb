@@ -11,7 +11,7 @@ module AislerPricing
   VAT_RATES = { de: 19 }.freeze
 
   def self.shipping_prices_data(country_code = nil)
-    shipping_config ||= YAML.load(IO.read(File.expand_path('../aisler_pricing/shipping_prices.yml', __FILE__)), symbolize_names: true)
+    shipping_config ||= YAML.safe_load(IO.read(File.expand_path('../aisler_pricing/shipping_prices.yml', __FILE__)), symbolize_names: true, aliases: true)
 
     if country_code
       country_code = country_code.downcase.to_sym
