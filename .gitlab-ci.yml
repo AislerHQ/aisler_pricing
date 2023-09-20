@@ -1,25 +1,41 @@
 before_script:
-  - bundle install --jobs $(nproc) --path .gems "${FLAGS[@]}"
+  - bundle version
+  - bundle config jobs $(nproc)
+  - bundle config path vendor/bundle
+  - bundle config clean true
+  - bundle install
 
-cache:
+.cache:
     key: default-cache
     paths:
-      - .gems
+      - vendor/bundle
 
 stages:
   - test
   - deploy
 
-rspec_job:
-  image: ruby:2.5.1
+rspec_3_2:
+  image: ruby:3.2
   tags:
     - docker
   stage: test
   script:
     - bin/rspec
+  extends:
+    - cache
+
+rspec_2_7:
+  image: ruby:2.7
+  tags:
+    - docker
+  stage: test
+  script:
+    - bin/rspec
+  extends:
+    - cache
 
 deploy_job:
-  image: ruby:2.5.1
+  image: ruby:3.2
   tags:
     - docker
   stage: deploy
@@ -28,3 +44,5 @@ deploy_job:
   script:
     - bin/rake build
     - bundle exec gem inabox -g https://${BUNDLE_GEMS__AISLER__TEAM}@gems.aisler.team
+  extends:
+    - cache
