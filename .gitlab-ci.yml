@@ -1,4 +1,4 @@
-before_script:
+.bundle-install: &bundle-install
   - bundle version
   - bundle config jobs $(nproc)
   - bundle config path vendor/bundle
@@ -16,26 +16,30 @@ stages:
   - deploy
 
 rspec_3_2:
+  extends:
+    - .cache
   image: ruby:3.2
   tags:
     - docker
   stage: test
   script:
+    - *bundle-install
     - bin/rspec
-  extends:
-    - .cache
 
 rspec_2_7:
+  extends:
+    - .cache
   image: ruby:2.7
   tags:
     - docker
   stage: test
   script:
+    - *bundle-install
     - bin/rspec
-  extends:
-    - .cache
 
 deploy_job:
+  extends:
+    - .cache
   image: ruby:3.2
   tags:
     - docker
@@ -43,7 +47,6 @@ deploy_job:
   only:
     - master
   script:
+    - *bundle-install
     - bin/rake build
     - bundle exec gem inabox -g https://${BUNDLE_GEMS__AISLER__TEAM}@gems.aisler.team
-  extends:
-    - .cache
