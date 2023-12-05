@@ -177,7 +177,7 @@ module AislerPricing
     when 84
       registration_frame_price(currency)
     when 88
-      Money.new(1000, DEFAULT_CURRENCY).exchange_to(currency)
+      Money.new(-1000, DEFAULT_CURRENCY).exchange_to(currency)
     end
   end
 

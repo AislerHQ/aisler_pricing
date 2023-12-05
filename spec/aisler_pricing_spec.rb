@@ -500,7 +500,7 @@ RSpec.describe AislerPricing do
 
     it 'returns PPP discount price' do
       result = AislerPricing.price(88).cents
-      expect(result).to eq(1000)
+      expect(result).to eq(-1000)
     end
   end
 end
