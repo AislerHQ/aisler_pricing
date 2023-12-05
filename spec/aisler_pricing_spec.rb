@@ -497,5 +497,10 @@ RSpec.describe AislerPricing do
       result = AislerPricing.tracked_shipping(country_code: 'US').cents
       expect(result).to eq(1499)
     end
+
+    it 'returns PPP discount price' do
+      result = AislerPricing.price(88).cents
+      expect(result).to eq(1000)
+    end
   end
 end
