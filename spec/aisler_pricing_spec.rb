@@ -255,6 +255,55 @@ RSpec.describe AislerPricing do
   end
 
   context 'should return price for complete assembly' do
+    it 'for simple designs' do
+      args = {
+        width: 80.0,
+        height: 57.0,
+        quantity: 30,
+        product_uid: 109,
+        part_variance: 13,
+        bom_price_cents: 1000,
+        part_smt_count: 23,
+        part_tht_count: 8,
+        double_sided: false
+      }
+
+      expect(AislerPricing.price(104, args).cents).to eq(534_55)
+    end
+
+    it 'for complex designs' do
+      args = {
+        width: 80.0,
+        height: 57.0,
+        quantity: 30,
+        product_uid: 106,
+        part_variance: 13,
+        bom_price_cents: 1000,
+        part_smt_count: 23,
+        part_tht_count: 8,
+        double_sided: false
+      }
+
+      expect(AislerPricing.price(104, args).cents).to eq(579_64)
+    end
+
+    it 'in different currency' do
+      args = {
+        width: 80.0,
+        height: 57.0,
+        quantity: 30,
+        product_uid: 109,
+        part_variance: 13,
+        bom_price_cents: 1000,
+        part_smt_count: 23,
+        part_tht_count: 8,
+        double_sided: true,
+        currency: 'USD'
+      }
+
+      expect(AislerPricing.price(104, args).currency).to eq('USD')
+    end
+
     it 'if parts are free' do
       args = {
         width: 80.0,
