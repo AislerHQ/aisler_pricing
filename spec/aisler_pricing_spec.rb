@@ -123,7 +123,7 @@ RSpec.describe AislerPricing do
     expect(result.currency).to eq(currency)
   end
 
-  context 'should return assembly price' do
+  context 'should return assembly service price' do
     it 'for single side' do
       args = {
         width: 80.0,
@@ -137,7 +137,7 @@ RSpec.describe AislerPricing do
         double_sided: false
       }
 
-      expect(AislerPricing.assembly_price(args).cents).to eq(42840)
+      expect(AislerPricing.assembly_price(args).cents).to eq(428_40)
     end
 
     it 'for double side' do
@@ -153,7 +153,7 @@ RSpec.describe AislerPricing do
         double_sided: true
       }
 
-      expect(AislerPricing.assembly_price(args).cents).to eq(45840)
+      expect(AislerPricing.assembly_price(args).cents).to eq(458_40)
     end
 
     it 'without tht' do
@@ -169,7 +169,7 @@ RSpec.describe AislerPricing do
         double_sided: true
       }
 
-      expect(AislerPricing.assembly_price(args).cents).to eq(36720)
+      expect(AislerPricing.assembly_price(args).cents).to eq(367_20)
     end
 
     it 'without smt' do
@@ -185,7 +185,7 @@ RSpec.describe AislerPricing do
         double_sided: true
       }
 
-      expect(AislerPricing.assembly_price(args).cents).to eq(37860)
+      expect(AislerPricing.assembly_price(args).cents).to eq(378_60)
     end
 
     it 'with customer supplied part variance' do
@@ -202,7 +202,7 @@ RSpec.describe AislerPricing do
         double_sided: true
       }
 
-      expect(AislerPricing.assembly_price(args).cents).to eq(50340)
+      expect(AislerPricing.assembly_price(args).cents).to eq(503_40)
     end
 
     it 'without customer supplied part variance' do
@@ -218,7 +218,7 @@ RSpec.describe AislerPricing do
         double_sided: true
       }
 
-      expect(AislerPricing.assembly_price(args).cents).to eq(45840)
+      expect(AislerPricing.assembly_price(args).cents).to eq(458_40)
     end
 
     it 'in different currency' do
@@ -237,6 +237,24 @@ RSpec.describe AislerPricing do
       expect(AislerPricing.assembly_price(args, 'USD').currency).to eq('USD')
     end
 
+    it 'for machine assembly volume' do
+      args = {
+        width: 80.0,
+        height: 57.0,
+        quantity: 500,
+        product_uid: 109,
+        part_variance: 13,
+        bom_price_cents: 1000,
+        part_smt_count: 23,
+        part_tht_count: 8,
+        double_sided: false
+      }
+
+      expect(AislerPricing.assembly_price(args).cents).to eq(2276_25)
+    end
+  end
+
+  context 'should return price for complete assembly' do
     it 'if parts are free' do
       args = {
         width: 80.0,
@@ -250,7 +268,7 @@ RSpec.describe AislerPricing do
         double_sided: false
       }
 
-      expect(AislerPricing.price(104, args).cents).to eq(51955)
+      expect(AislerPricing.price(104, args).cents).to eq(519_55)
     end
 
     it 'if quantity is just one' do
@@ -266,23 +284,7 @@ RSpec.describe AislerPricing do
         double_sided: false
       }
 
-      expect(AislerPricing.price(104, args).cents).to eq(11020)
-    end
-
-    it 'for machine assembly volume' do
-      args = {
-        width: 80.0,
-        height: 57.0,
-        quantity: 500,
-        product_uid: 109,
-        part_variance: 13,
-        bom_price_cents: 1000,
-        part_smt_count: 23,
-        part_tht_count: 8,
-        double_sided: false
-      }
-
-      expect(AislerPricing.assembly_price(args).cents).to eq(2276_25)
+      expect(AislerPricing.price(104, args).cents).to eq(110_20)
     end
   end
 
