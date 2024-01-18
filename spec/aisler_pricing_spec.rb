@@ -269,6 +269,7 @@ RSpec.describe AislerPricing do
       }
 
       expect(AislerPricing.price(104, args).cents).to eq(534_55)
+      expect(AislerPricing.price(201, args).cents).to eq(534_55)
     end
 
     it 'for complex designs' do
@@ -285,6 +286,7 @@ RSpec.describe AislerPricing do
       }
 
       expect(AislerPricing.price(104, args).cents).to eq(579_64)
+      expect(AislerPricing.price(202, args).cents).to eq(579_64)
     end
 
     it 'in different currency' do
