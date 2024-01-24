@@ -34,7 +34,7 @@ module AislerPricing
 
     base = case args[:product_uid]
     when 105
-      16.00
+      12.00
     when 106
       12.0
     when 107
@@ -46,7 +46,7 @@ module AislerPricing
     end
     price_per_cm2 = case args[:product_uid]
     when 105
-      0.084
+      0.104
     when 106
       0.084
     when 107
