@@ -119,12 +119,11 @@ module AislerPricing
     tht_count = args[:part_tht_count]
 
     manual_fees = []
-    manual_fees << qty * tht_count * 38
-    manual_fees << qty * smt_count * 38
-
     manual_fees << 75_00
     manual_fees << 30_00 if args[:double_sided]
     manual_fees << 15_00 * customer_supplied_part_variance
+    manual_fees << qty * tht_count * 38
+    manual_fees << qty * smt_count * 38
 
     automatic_fees = []
     automatic_fees << 332_50
@@ -136,6 +135,7 @@ module AislerPricing
     automatic_fees << 15_00 * customer_supplied_part_variance
 
     price = [manual_fees.sum, automatic_fees.sum].min
+    price *= 2 if args[:sla] == :blitz
     Money.new(price, DEFAULT_CURRENCY).exchange_to(currency)
   end
 
@@ -145,15 +145,16 @@ module AislerPricing
     case product_uid
     when 103
       stencil_price(args, currency)
-    when 104, 201, 202
+    when 104, 201, 202, 203
       # Always calculate at least 3 PCBs
       min_pcb_qty = 3
       board_args = args.merge(quantity: (args[:quantity].to_f / min_pcb_qty).ceil * min_pcb_qty)
+      sla = product_uid == 203 ? :blitz : :default
       prices = [
         board_price(board_args, currency),
         parts_price(args, currency),
         stencil_price(args, currency),
-        assembly_price(args, currency)
+        assembly_price(args.merge(sla: sla), currency)
       ]
       prices.sum
     when (105..155)
