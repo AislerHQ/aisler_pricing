@@ -252,6 +252,23 @@ RSpec.describe AislerPricing do
 
       expect(AislerPricing.assembly_price(args).cents).to eq(2276_25)
     end
+
+    it 'with blitz sla' do
+      args = {
+        width: 80.0,
+        height: 57.0,
+        quantity: 30,
+        product_uid: 109,
+        part_variance: 13,
+        bom_price_cents: 1000,
+        part_smt_count: 23,
+        part_tht_count: 8,
+        double_sided: false,
+        sla: :blitz
+      }
+
+      expect(AislerPricing.assembly_price(args).cents).to eq(856_80)
+    end
   end
 
   context 'should return price for complete assembly' do
@@ -336,6 +353,22 @@ RSpec.describe AislerPricing do
       }
 
       expect(AislerPricing.price(104, args).cents).to eq(110_20)
+    end
+
+    it 'for blitz designs' do
+      args = {
+        width: 80.0,
+        height: 57.0,
+        quantity: 30,
+        product_uid: 109,
+        part_variance: 13,
+        bom_price_cents: 1000,
+        part_smt_count: 23,
+        part_tht_count: 8,
+        double_sided: false
+      }
+
+      expect(AislerPricing.price(203, args).cents).to eq(962_95)
     end
   end
 
